@@ -18,18 +18,21 @@ const web3 = new Web3(provider);
 
 const deploy = async () => {
 
-    const accounts = await web3.eth.getAccounts();
+    try {
+        const accounts = await web3.eth.getAccounts();
 
-    console.log("Attempting to deploy from account = ", accounts);
+        console.log("Attempting to deploy from account = ", accounts);
 
 
-         const result = await new web3.eth.Contract(JSON.parse(compiledFactory.interface))
+        const result = await new web3.eth.Contract(JSON.parse(compiledFactory.interface))
             .deploy({data: '0x' + compiledFactory.bytecode})
-            .send({ gas: "3000000", from: accounts[0]});
+            .send({gas: "3000000", from: accounts[0]});
 
 
-    console.log("Contract deployed at", result.options.address);
-
+        console.log("Contract deployed at", result.options.address);
+    }catch (e) {
+        console.log(e.message);
+    }
 
   //      fs.appendFileSync("ethereum/CONTRACT_ADDRESS", `\r\n${result.options.address}`);
 };

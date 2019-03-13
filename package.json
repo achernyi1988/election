@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "fs-extra": "^7.0.1",
+    "g": "^2.0.1",
+    "ipfs-api": "^26.1.2",
     "react": "^16.8.4",
     "react-admin": "^2.7.3",
     "react-dom": "^16.8.4",
