@@ -6,16 +6,6 @@ class Candidate extends React.Component {
 
     componentDidMount() {
         console.log("componentDidMount");
-        // contractInstance().then( (result)=>{
-        //     console.log("componentDidMount ", result);
-        //     this.accounts = result.accounts;
-        //     this.contract = result.smartContract;
-        //  });
-
-        // this.accounts = accounts;
-        // this.contract = smartContract;
-        // console.log("componentDidMount accounts ", this.accounts);
-        // console.log("componentDidMount contract ", this.contract);
     }
 
 

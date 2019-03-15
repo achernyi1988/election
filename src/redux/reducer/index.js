@@ -1,15 +1,31 @@
 import types from "./types"
 import {combineReducers} from "redux"
+import { reducer as formReducer } from 'redux-form'
 
+const INITIAL_STATE = {
+    ipfsHashAv: null
+}
 
-const ipfsHashReducer = (state = "", action) => {
-    if(types.ipfs_hash === action.type){
-        return { ...state, ipfs_hash: action.payload}
+const ipfsHashReducer = (state = INITIAL_STATE, action) => {
+    if(types.IPFS_HASH === action.type){
+        return { ...state, ipfsHashAv: action.payload}
     }
     return state;
 }
 
+const currentElectorateReducer = (state = {}, action) => {
+    if(types.CURRENT_ELECTORATE === action.type){
+        return  action.payload;
+    }
+    return state;
+}
+
+
+
+
 export default  combineReducers({
-    ipfs_hash: ipfsHashReducer
+    form: formReducer,
+    ipfs_hash: ipfsHashReducer,
+    current_electorate: currentElectorateReducer
 })
 

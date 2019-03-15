@@ -33,16 +33,16 @@ contract Election is IElection{
         addContender("Diana Chernya", "Green" );
     }
 
-    bytes32 ipfsHash;
+    string ipfsHash;
 
-    event OnIPFSHash(bytes32 hash);
+    event OnIPFSHash(string hash);
 
-    function setIPFS(bytes32 hash)  public onlyAdmin {
+    function setIPFS(string hash)  public onlyAdmin {
         ipfsHash = hash;
         emit OnIPFSHash (ipfsHash);
     }
 
-    function getIPFS()  public view returns (bytes32){
+    function getIPFS()  public view returns (string){
         return ipfsHash;
     }
 

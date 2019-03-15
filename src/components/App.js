@@ -11,7 +11,7 @@ import {BrowserRouter, Route, Switch} from "react-router-dom"
 
 class App extends Component {
 
-    async componentDidMount() {
+     componentDidMount() {
 
 
 
@@ -19,10 +19,10 @@ class App extends Component {
 
     render() {
         return (
-            <div className="App">
+            <div>
                 <BrowserRouter>
                     <Switch>
-                        <Route path={"/"} exact component={Electorate}/>
+                        <Route path={"/"} exact component={(props) => <Electorate {...props} /> } />
                         <Route path={"/candidate"} exact component={Candidate}/>
                         <Route path={"/thanks"} exact component={Thanks}/>
                     </Switch>

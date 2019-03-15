@@ -5,7 +5,10 @@
   "dependencies": {
     "fs-extra": "^7.0.1",
     "g": "^2.0.1",
+    "hoist-non-react-statics": "^3.3.0",
     "ipfs-api": "^26.1.2",
+    "keymirror": "^0.1.1",
+    "lodash": "^4.17.11",
     "react": "^16.8.4",
     "react-admin": "^2.7.3",
     "react-dom": "^16.8.4",
@@ -13,7 +16,9 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.8",
     "redux": "^4.0.1",
+    "redux-form": "^8.1.0",
     "redux-thunk": "^2.3.0",
+    "semantic-ui-react": "^0.86.0",
     "solc": "^0.4.25",
     "truffle-hdwallet-provider": "^1.0.5",
     "web3": "^1.0.0-beta.35"

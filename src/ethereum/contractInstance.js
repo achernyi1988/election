@@ -3,7 +3,7 @@ const compiledFactory = require("../ethereum/build/Election");
 
 // PRIVATE_KEY = "109D58463D2A21022382C21C9A4FA0CDDAA6E20B4FDF9CFD2304E182DCC56CBE";
 //const CONTRACT_ADDRESS = "0x4d044220b1F3963cbf64a93D6d74114292D6d987";  //rinkby
-const CONTRACT_ADDRESS = "0x055B6B6F7f86623af90c79f0C7Ec34D03e44dCEd";    //ganache
+const CONTRACT_ADDRESS = "0xC8E920B19957fcAA03eD5939E5904426f81B44C5";    //ganache
 
 
 
@@ -17,7 +17,7 @@ const createInstance = async() => {
 
 }
 
-export const smartContractData =  createInstance() .then( contractObj => {
+export const smartContractData =  createInstance().then( contractObj => {
     console.log("contractObj", contractObj);
     return contractObj;
     }

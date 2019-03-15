@@ -1,7 +1,8 @@
-const ElectionType = {
-    ipfs_hash: "",
-    currentElectorate: null,
-    currentCandidate: null
-}
+import ElectionType from 'keymirror'
 
-export default ElectionType;
+export  default ElectionType ( {
+    IPFS_HASH: null,
+    CURRENT_ELECTORATE: null,
+    CURRENT_CANDIDATE: null
+})
+
