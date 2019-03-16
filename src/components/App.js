@@ -4,17 +4,16 @@ import Candidate from "./Candidate"
 import Thanks from "./Thanks"
 
 import {BrowserRouter, Route, Switch} from "react-router-dom"
-
-
+import {getContractAddress} from "../redux/action";
+import {connect} from "react-redux";
 
 
 
 class App extends Component {
 
-     componentDidMount() {
 
-
-
+     componentWillMount() {
+         this.props.getContractAddress();
     }
 
     render() {
@@ -32,4 +31,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default  connect(null, {getContractAddress })(App);

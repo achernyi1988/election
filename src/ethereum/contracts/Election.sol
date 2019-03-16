@@ -1,7 +1,7 @@
 pragma solidity ^0.4.25;
 
 contract IElection{
-    function vote(string  _fullName) external returns( string memory,  uint256);
+    function vote(string  _contender, string _electorate) external ;
     function registerContender(string  _fullName, string  _description) external;
     function getNoOfVoted(string  _fullName) external view returns (uint256);
     function getWinner() external view returns (string memory, string memory, uint256);
@@ -22,11 +22,15 @@ contract Election is IElection{
     mapping(string => uint256) contenderId;
     uint256 public currentContenderID;
     mapping(string => bool) contenderRegistered;
+    mapping(string => bool) electorateVoted;
 
-    mapping(address => bool) voters;
-
+    mapping(string => bool) votersMap;
+    string [] public votersArray;
     constructor()public {
         admin = msg.sender;
+
+        votersArray.push("0x3_Diana");
+        votersArray.push("0x4_Tom");
 
         addContender("Alex", "White" );
         addContender("Lena", "Red" );
@@ -35,7 +39,13 @@ contract Election is IElection{
 
     string ipfsHash;
 
+
     event OnIPFSHash(string hash);
+    event OnVote(string contender, string electorate);
+
+    function getNumberOfVoter() public view returns (uint){
+        return votersArray.length;
+    }
 
     function setIPFS(string hash)  public onlyAdmin {
         ipfsHash = hash;
@@ -61,15 +71,19 @@ contract Election is IElection{
 
     }
 
-    function vote(string  _fullName) external  NotContender(_fullName) returns(string memory, uint256) {
+    function vote(string  _contender, string _electorate ) external  NotContender(_contender) {
 
-        voters[msg.sender] = true;
+        //voters[msg.sender] = true;
 
-        ContenderData storage voted = contender[getContenderIndex(_fullName)];
+        ContenderData storage voted = contender[getContenderIndex(_contender)];
 
         voted.voteCounter++;
 
-        return (_fullName, voted.voteCounter);
+        electorateVoted[_electorate] = true;
+
+        votersArray.push(_electorate);
+
+        emit OnVote(_contender, _electorate);
     }
 
     function getNoOfVoted(string  _fullName) external view NotContender(_fullName)  returns (uint256){

@@ -12,7 +12,7 @@ class Candidate extends React.Component {
     vote = () => {
 
         smartContractData.then(obj => {
-            obj.instanceSM.methods.vote("Alex")
+            obj.instanceSM.methods.vote("Lena", "0x1_Alex" )
                 .send({
                     from: obj.accounts[0],
                     gas: "2000000"

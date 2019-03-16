@@ -20,12 +20,36 @@ const currentElectorateReducer = (state = {}, action) => {
     return state;
 }
 
+const adminAddressReducer = (state = {}, action) => {
 
+    if(types.WEB3_ADDRESS === action.type){
+        return  action.payload;
+    }
+    return state;
+}
+
+const electorateVotedReducer = (state = [], action) => {
+    console.log("electorateVotedReducer", action);
+    if(types.FETCH_VOTED_LIST === action.type){
+
+        return{
+
+            ...state,
+            arr: state.concat(action.payload)
+        }
+    }
+    if(types.ADD_VOTED_LIST  === action.type ){
+
+    }
+    return state;
+}
 
 
 export default  combineReducers({
     form: formReducer,
     ipfs_hash: ipfsHashReducer,
-    current_electorate: currentElectorateReducer
+    current_electorate: currentElectorateReducer,
+    web3_address: adminAddressReducer,
+    electorate_voted: electorateVotedReducer
 })
 
