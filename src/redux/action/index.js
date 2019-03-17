@@ -69,7 +69,40 @@ export const getElectorateVoted = () => async (dispatch) => {
         arr.push(await instanceSM.methods.votersArray(i).call());
     }
     console.log("getElectorateVoted:result ", arr);
-    dispatch({type: types.FETCH_VOTED_LIST, payload: arr})
+    dispatch({type: types.UPDATE_VOTED_LIST, payload: arr})
 
 }
 
+
+export const vote = (candidate, electorate ) => (dispatch) => {
+    console.log("vote");
+
+    smartContractData.then( obj =>
+        {
+            obj.instanceSM.methods.vote(candidate, electorate).send({
+                from: obj.accounts[0],
+                gas: "2000000"
+            }).then((result) => {
+                console.log("vote:result ", result.events.OnVote.returnValues);
+             //   dispatch({type: types.IPFS_HASH, payload: result.events.OnIPFSHash.returnValues.hash})
+            }).catch( (err)   => {
+                console.log("vote:err ", err.message);
+            });
+        }
+    )
+}
+
+export const getCandidates = () => async (dispatch) => {
+    console.log("getCandidates");
+
+    const {instanceSM} = await smartContractData.then( );// obj =>
+    const length =  await instanceSM.methods.getNumberOfContender().call();
+
+    let arr = [];
+    for(let i = 0; i < length; ++i){
+        arr.push(await instanceSM.methods.contender(i).call());
+    }
+    console.log("getCandidates:result ", arr);
+    dispatch({type: types.UPDATE_CANDIDATE_LIST, payload: arr})
+
+}

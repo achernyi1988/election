@@ -29,8 +29,7 @@ const adminAddressReducer = (state = {}, action) => {
 }
 
 const electorateVotedReducer = (state = [], action) => {
-    console.log("electorateVotedReducer", action);
-    if(types.FETCH_VOTED_LIST === action.type){
+    if(types.UPDATE_VOTED_LIST === action.type){
 
         return{
 
@@ -38,8 +37,17 @@ const electorateVotedReducer = (state = [], action) => {
             arr: state.concat(action.payload)
         }
     }
-    if(types.ADD_VOTED_LIST  === action.type ){
+    return state;
+}
 
+const candidateListReducer = (state = [], action) => {
+    if(types.UPDATE_CANDIDATE_LIST === action.type){
+
+        return{
+
+            ...state,
+            arr: state.concat(action.payload)
+        }
     }
     return state;
 }
@@ -50,6 +58,7 @@ export default  combineReducers({
     ipfs_hash: ipfsHashReducer,
     current_electorate: currentElectorateReducer,
     web3_address: adminAddressReducer,
-    electorate_voted: electorateVotedReducer
+    electorate_voted: electorateVotedReducer,
+    candidates:candidateListReducer
 })
 

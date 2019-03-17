@@ -46,6 +46,10 @@ contract Election is IElection{
     function getNumberOfVoter() public view returns (uint){
         return votersArray.length;
     }
+    function getNumberOfContender() public view returns (uint){
+        return contender.length;
+    }
+
 
     function setIPFS(string hash)  public onlyAdmin {
         ipfsHash = hash;
@@ -89,6 +93,8 @@ contract Election is IElection{
     function getNoOfVoted(string  _fullName) external view NotContender(_fullName)  returns (uint256){
         return contender[getContenderIndex(_fullName)].voteCounter;
     }
+
+
     function getWinner() external view returns (string memory,string memory, uint256){
         require(0 < contender.length, "0 < contender.length");
         uint256 max = 0;

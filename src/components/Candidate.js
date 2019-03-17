@@ -1,49 +1,68 @@
 import React from "react"
-import {smartContractData} from "../ethereum/contractInstance"
+import {getCandidates, getElectorateVoted, getIPFSHash, setCurrentElectorate, setIPFSHash} from "../redux/action"
+import {connect} from "react-redux"
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton'
+import {Field, reduxForm} from "redux-form"
+import {Button, Container} from 'semantic-ui-react'
 
 class Candidate extends React.Component {
 
 
     componentDidMount() {
-        console.log("componentDidMount");
+        this.props.getCandidates();
     }
 
-
-    vote = () => {
-
-        smartContractData.then(obj => {
-            obj.instanceSM.methods.vote("Lena", "0x1_Alex" )
-                .send({
-                    from: obj.accounts[0],
-                    gas: "2000000"
-                }).then((value) => {
-                console.log("value = ", value);
-            }).catch((err) => {
-                console.log("err = ", err);
-            })
-        })
+    renderRadioButtons = () => {
+        if (!this.props.candidates) {
+            return null;
+        }
+        return (<Container>
+            <label>Candidates</label>
+            {this.props.candidates.map((candidate) => {
+                return <div key={candidate.fullName}>
+                    <label>
+                        <Field name="candidates" component="input" type="radio" value={candidate.fullName}/>
+                        {candidate.fullName}
+                    </label>
+                </div>
+            })}
+        </Container>)
     }
-    getNoOfVotes = async () => {
-
-        smartContractData.then(async obj => {
-            console.log("obj ", obj);
-            const result = await obj.instanceSM.methods.getNoOfVoted("Alex").call();
-
-            console.log("result = ", result)
-        })
-
-
+    onSubmit = (value) => {
+        console.log("onSubmit", value);
     }
 
     render() {
+        console.log("props = ", this.props)
+
+        const { pristine, reset, submitting} = this.props;
+
         return (
             <div>
-                Candidate
-                <button onClick={this.vote}> Vote </button>
-                <button onClick={this.getNoOfVotes}> Get numbers</button>
+
+                <form className={"ui form error"} onSubmit={this.props.handleSubmit(this.onSubmit)}>
+
+                    {this.renderRadioButtons()}
+                    <Button primary disabled={submitting}>Log In</Button>
+                    <Button negative disabled={pristine || submitting} onClick={reset}>Clear
+                        Values </Button>
+
+                </form>
+                {/*<button onClick={this.vote}> Vote </button>*/}
+                {/*<button onClick={this.getNoOfVotes}> Get numbers</button>*/}
             </div>
         )
     }
 }
 
-export default Candidate;
+const mapStateToProps = (state) => {
+    console.log("mapStateToProps", state);
+    return {candidates: state.candidates.arr};
+}
+
+
+export default reduxForm({
+    form: "CandidateForm"
+})(connect(mapStateToProps, {
+    getCandidates
+})(Candidate));

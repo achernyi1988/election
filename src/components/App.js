@@ -22,7 +22,7 @@ class App extends Component {
                 <BrowserRouter>
                     <Switch>
                         <Route path={"/"} exact component={(props) => <Electorate {...props} /> } />
-                        <Route path={"/candidate"} exact component={Candidate}/>
+                        <Route path={"/candidate"} exact component={(props) => <Candidate{...props}/> } />
                         <Route path={"/thanks"} exact component={Thanks}/>
                     </Switch>
                 </BrowserRouter>

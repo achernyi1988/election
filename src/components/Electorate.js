@@ -6,7 +6,7 @@ import {connect} from "react-redux"
 import {Button, Container} from 'semantic-ui-react'
 import _ from 'lodash'
 
-import {Field, reduxForm} from "redux-form"
+import {Field, reduxForm, SubmissionError} from "redux-form"
 
 class Electorate extends React.Component {
 
@@ -21,35 +21,18 @@ class Electorate extends React.Component {
         this.props.getElectorateVoted();
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentDidUpdate(prevProps) {
 
-        if (this.props.ipfs_hash !== nextProps.ipfs_hash) {
-            ipfs.files.cat(nextProps.ipfs_hash)
+        if (this.props.ipfs_hash !== prevProps.ipfs_hash) {
+            ipfs.files.cat(this.props.ipfs_hash)
                 .then(persons => {
                     this.setPersons(persons);
                     //this.props.initialize({value: "Gena"});
                 });
 
         }
-        if (this.props.electorate_voted !== nextProps.electorate_voted) {
-
-           //  console.log("!!!!!!!!!!!!!!!!", nextProps.electorate_voted);
-           //
-           // let tempPersons =  this.state.persons;
-
-            // nextProps.electorate_voted.arr.forEach (  (value) => {
-            //
-            //    // let electorate = _.find(tempPersons, ['value', value]);
-            //     // electorate.voted = true;
-            //
-            //    console.log("!!!!!!!!!!!!!!!!!! forEach ");
-            // })
-
-            // console.log("!!!!!!!!!!!!!!!!!!", tempPersons);
-            console.log("!!!!!!!!!!!!!!!!!!", this.state.persons);
-
-
-
+        if (this.props.electorate_voted !== prevProps.electorate_voted) {
+            this.updateVoted(this.state.persons, this.props.electorate_voted);
         }
 
     }
@@ -64,22 +47,29 @@ class Electorate extends React.Component {
             })
         )
 
-        this.props.electorate_voted.forEach (  (value) => {
-            let electorate = _.find(personsOptions, ['value', value]);
-            electorate.voted = true;
-        })
-
-        console.log("setPersons setPersons", personsOptions);
-        this.setState({persons: personsOptions});
+        this.updateVoted(personsOptions, this.props.electorate_voted);
     }
 
+    updateVoted = (persons, votedPersons) => {
+        if (!votedPersons) {
+            return;
+        }
+        votedPersons.forEach((value) => {
+            let electorate = _.find(persons, ['value', value]);
+            if (electorate) {
+                electorate.voted = true;
+            }
+        })
+
+        this.setState({persons: persons});
+    }
     createIPFSHash = () => {
         ipfs.files.add(Buffer.from(JSON.stringify(json)))
             .then(res => {
                 const hash = res[0].hash;
 
                 this.props.setIPFSHash(hash);
-                console.log('added data hash:', hash)
+
                 return ipfs.files.cat(hash)
             })
             .then(persons => {
@@ -101,9 +91,8 @@ class Electorate extends React.Component {
     }
 
     renderField = (formProps) => {
+        console.log("renderField", formProps);
         const className = `field ${(formProps.meta.touched && formProps.meta.error) ? "error" : "" }`;
-        // console.log("renderField formProps ", formProps);
-        // console.log("renderField", className);
         return (
             <div className={className}>
                 <label> {formProps.label} </label>
@@ -116,53 +105,68 @@ class Electorate extends React.Component {
     }
 
     onSubmit = (value) => {
-        console.log("onSubmit value ", value);
 
         const electorate = _.find(this.state.persons, ['value', value.electorate]);
+        if(!electorate){
+            throw new SubmissionError({
+                password: 'choose your name from list',
+                _error: 'Login failed!'
+            })
+        }
+
+        if (electorate.password !== value.password) {
+
+            throw new SubmissionError({
+                password: 'Wrong password, try again',
+                _error: 'Login failed!'
+            })
+        }
+
         this.props.setCurrentElectorate(electorate);
+        this.props.history.push("/candidate");
     }
 
     render() {
 
         const {handleSubmit, pristine, reset, submitting} = this.props;
 
-        console.log("ipfs_hash", this.state);
         const inactive = (this.props.web3_address.admin === this.props.web3_address.user) ? "" : "none";
 
         return (
-            <div className="ui grid">
-                <div className="four wide column">
-                    <Container>
-                        <form className={"ui form error"} onSubmit={handleSubmit(this.onSubmit)}>
-                            {/*<Select placeholder={"input your name"} onChange={this.handleChange} options={this.state.persons}/>*/}
+
+            <div>
+                <Container>
+                    <div className={"ui grid"}>
+                        <div className={"eight wide column"}>
+                            <form className={"ui form error"} onSubmit={handleSubmit(this.onSubmit)}>
+                                {/*<Select placeholder={"input your name"} onChange={this.handleChange} options={this.state.persons}/>*/}
 
 
-                            <Field name="electorate" component="select">
-                                <option>choose your name</option>
-                                {this.state.persons.map((person) => {
+                                <Field name="electorate" component="select">
+                                    <option>choose your name</option>
+                                    {this.state.persons.map((person) => {
 
-                                   // const inactive = person.voted;//(person.password === "5");
-                                    return (
-                                        <option key={person.key} value={person.value}
-                                                disabled={person.voted}>{person.text}</option>
-                                    )
-                                })}
-                            </Field>
-                            <Field name="password" type="password" component={this.renderField} label="Password"/>
-                            <div>
+                                        // const inactive = person.voted;//(person.password === "5");
+                                        return (
+                                            <option key={person.key} value={person.value}
+                                                    disabled={person.voted}>{person.text}</option>
+                                        )
+                                    })}
+                                </Field>
+                                <Field name="password" type="password" component={this.renderField} label="Password"/>
+
                                 <Button primary disabled={submitting}>Log In</Button>
                                 <Button negative disabled={pristine || submitting} onClick={reset}>Clear
                                     Values </Button>
-                            </div>
-                        </form>
+                            </form>
 
+                        </div>
+                    </div>
+                </Container>
 
-                    </Container>
-
-
-                </div>
                 <Container><Button style={{display: `${inactive}`}}
                                    onClick={this.createIPFSHash}>createIPFSHash</Button></Container>
+
             </div>
 
 
