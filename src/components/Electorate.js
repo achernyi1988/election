@@ -1,10 +1,11 @@
 import React from "react"
 import ipfs from "../ethereum/api/ipfs_client"
-import json from '../electorate/electorate.json';
+import json_file from '../electorate/electorate.json';
 import {setIPFSHash, getIPFSHash, setCurrentElectorate, getElectorateVoted} from "../redux/action"
 import {connect} from "react-redux"
 import {Button, Container} from 'semantic-ui-react'
 import _ from 'lodash'
+
 
 import {Field, reduxForm, SubmissionError} from "redux-form"
 
@@ -64,7 +65,7 @@ class Electorate extends React.Component {
         this.setState({persons: persons});
     }
     createIPFSHash = () => {
-        ipfs.files.add(Buffer.from(JSON.stringify(json)))
+        ipfs.files.add(Buffer.from(JSON.stringify(json_file)))
             .then(res => {
                 const hash = res[0].hash;
 

@@ -1,9 +1,9 @@
 import React from "react"
-import {getCandidates, getElectorateVoted, getIPFSHash, setCurrentElectorate, setIPFSHash} from "../redux/action"
+import {getCandidates, vote} from "../redux/action"
 import {connect} from "react-redux"
-import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton'
-import {Field, reduxForm} from "redux-form"
+import {Field, reduxForm, SubmissionError} from "redux-form"
 import {Button, Container} from 'semantic-ui-react'
+import Thanks from "./Thanks"
 
 class Candidate extends React.Component {
 
@@ -12,44 +12,92 @@ class Candidate extends React.Component {
         this.props.getCandidates();
     }
 
+    renderError = ({error, touched}) => {
+
+        if (error && touched) {
+
+            return (
+                <div className={"ui message error"}>
+                    <div className={"header"}> {error} </div>
+                </div>
+            )
+        }
+    }
+
+    renderField = (formProps) => {
+        console.log("renderField", formProps);
+        const className = `field ${(formProps.meta.touched && formProps.meta.error) ? "error" : "" }`;
+        const inactive = (formProps.label) ? "" : "none";
+
+        return (
+            <div className={className}>
+                <label style={{display: `${inactive}`}}>
+                    <Field name={formProps.input.name} component="input" type={formProps.type} value={formProps.label}/>
+                    {formProps.label}
+                </label>
+                {this.renderError(formProps.meta)}
+            </div>
+        )
+    }
+
     renderRadioButtons = () => {
         if (!this.props.candidates) {
             return null;
         }
         return (<Container>
-            <label>Candidates</label>
+            <label>Candidates:</label>
             {this.props.candidates.map((candidate) => {
                 return <div key={candidate.fullName}>
                     <label>
-                        <Field name="candidates" component="input" type="radio" value={candidate.fullName}/>
-                        {candidate.fullName}
+                        <Field name="candidates" component={this.renderField} type="radio" label={candidate.fullName}/>
+
                     </label>
                 </div>
             })}
         </Container>)
     }
-    onSubmit = (value) => {
-        console.log("onSubmit", value);
+    onSubmit = ({candidates}) => {
+        console.log("onSubmit", candidates, this.props.current_voter);
+        if (!this.props.current_voter.text) {
+            console.log("!!!!!!!!!!!!!!!!!error  onSubmit");
+            throw new SubmissionError({
+                voter_unavailable: 'no voter available',
+                _error: 'voter failed!'
+            })
+        }
+        if (this.props.current_voter) {
+            this.props.vote(candidates, this.props.current_voter.value);
+        }
+    }
+
+    renderVoter = () => {
+
+        return (
+            <div>
+                <h3> Welcome {this.props.current_voter.text} ! </h3>
+                <h4> Please vote for a candidate </h4>
+            </div>
+        )
     }
 
     render() {
         console.log("props = ", this.props)
 
-        const { pristine, reset, submitting} = this.props;
+        const {pristine, reset, submitting} = this.props;
 
         return (
             <div>
-
+                {this.renderVoter()}
                 <form className={"ui form error"} onSubmit={this.props.handleSubmit(this.onSubmit)}>
 
                     {this.renderRadioButtons()}
-                    <Button primary disabled={submitting}>Log In</Button>
-                    <Button negative disabled={pristine || submitting} onClick={reset}>Clear
-                        Values </Button>
 
+                    <Button primary disabled={submitting}>Log In</Button>
+                    <Button negative disabled={pristine || submitting} onClick={reset}>Clear Values </Button>
+                    <label>
+                        <Field name="voter_unavailable" component={this.renderField}/>
+                    </label>
                 </form>
-                {/*<button onClick={this.vote}> Vote </button>*/}
-                {/*<button onClick={this.getNoOfVotes}> Get numbers</button>*/}
             </div>
         )
     }
@@ -57,12 +105,16 @@ class Candidate extends React.Component {
 
 const mapStateToProps = (state) => {
     console.log("mapStateToProps", state);
-    return {candidates: state.candidates.arr};
+    return {
+        candidates: state.candidates.arr,
+        current_voter: state.current_voter
+    };
 }
 
 
 export default reduxForm({
     form: "CandidateForm"
 })(connect(mapStateToProps, {
-    getCandidates
+    getCandidates,
+    vote
 })(Candidate));

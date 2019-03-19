@@ -1,6 +1,7 @@
 import types from "../reducer/types"
 import {smartContractData} from "../../ethereum/contractInstance"
-import web3 from "../../ethereum/web3"
+import history from "../../history"
+
 
 export const setIPFSHash = (hash) => (dispatch) => {
     console.log("setIPFSHash");
@@ -84,7 +85,9 @@ export const vote = (candidate, electorate ) => (dispatch) => {
                 gas: "2000000"
             }).then((result) => {
                 console.log("vote:result ", result.events.OnVote.returnValues);
-             //   dispatch({type: types.IPFS_HASH, payload: result.events.OnIPFSHash.returnValues.hash})
+                dispatch({type: types.CURRENT_CANDIDATE, payload: result.events.OnVote.returnValues.contender})
+
+                history.push("/thanks");
             }).catch( (err)   => {
                 console.log("vote:err ", err.message);
             });

@@ -26,15 +26,16 @@ contract Election is IElection{
 
     mapping(string => bool) votersMap;
     string [] public votersArray;
+
     constructor()public {
         admin = msg.sender;
 
-        votersArray.push("0x3_Diana");
-        votersArray.push("0x4_Tom");
-
-        addContender("Alex", "White" );
-        addContender("Lena", "Red" );
-        addContender("Diana Chernya", "Green" );
+        addContender("Zelenskiy", "Slyga Narody" );
+        addContender("Poroshenko", "Partia svoboda" );
+        addContender("Timoshenko", "Democratia" );
+        addContender("Boyko", "Vosrojdenie" );
+        addContender("Grecenko", "nacialistu" );
+        addContender("Vilkov", "Vosrojdenie" );
     }
 
     string ipfsHash;

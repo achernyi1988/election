@@ -3,9 +3,7 @@ const compiledFactory = require("../ethereum/build/Election");
 
 // PRIVATE_KEY = "109D58463D2A21022382C21C9A4FA0CDDAA6E20B4FDF9CFD2304E182DCC56CBE";
 //const CONTRACT_ADDRESS = "0x4d044220b1F3963cbf64a93D6d74114292D6d987";  //rinkby
-const CONTRACT_ADDRESS = "0x54A22AccEe57e8d30ca48f4268111c741aaA315a";    //ganache
-
-
+const CONTRACT_ADDRESS = "0xD878a36f32255b13D5bB9E862D930ccAe72aBbD6";    //ganache
 
 
 const createInstance = async() => {

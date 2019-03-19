@@ -3,10 +3,12 @@ import Electorate from "./Electorate"
 import Candidate from "./Candidate"
 import Thanks from "./Thanks"
 
-import {BrowserRouter, Route, Switch} from "react-router-dom"
+import {Router, Route, Switch} from "react-router-dom"
 import {getContractAddress} from "../redux/action";
 import {connect} from "react-redux";
 
+
+import history from "../history"
 
 
 class App extends Component {
@@ -19,13 +21,13 @@ class App extends Component {
     render() {
         return (
             <div>
-                <BrowserRouter>
+                <Router history={history}>
                     <Switch>
                         <Route path={"/"} exact component={(props) => <Electorate {...props} /> } />
                         <Route path={"/candidate"} exact component={(props) => <Candidate{...props}/> } />
                         <Route path={"/thanks"} exact component={Thanks}/>
                     </Switch>
-                </BrowserRouter>
+                </Router>
             </div>
         );
     }
