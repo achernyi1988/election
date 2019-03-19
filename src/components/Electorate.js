@@ -108,7 +108,7 @@ class Electorate extends React.Component {
     onSubmit = (value) => {
 
         const electorate = _.find(this.state.persons, ['value', value.electorate]);
-        if(!electorate){
+        if (!electorate) {
             throw new SubmissionError({
                 password: 'choose your name from list',
                 _error: 'Login failed!'
@@ -163,58 +163,56 @@ class Electorate extends React.Component {
 
                         </div>
                     </div>
+                    <Container><Button style={{display: `${inactive}`}}
+                                       onClick={this.createIPFSHash}>createIPFSHash</Button></Container>
                 </Container>
-
-                <Container><Button style={{display: `${inactive}`}}
-                                   onClick={this.createIPFSHash}>createIPFSHash</Button></Container>
-
             </div>
 
 
-        )
+    )
     }
-}
+    }
 
-const validate = (values) => {
-    const errors = {}
+    const validate = (values) => {
+        const errors = {}
 
-    if (!values.password) {
+        if (!values.password) {
         errors.password = "you must enter a password";
     }
 
-    else if (values.password.length > 1) {
+        else if (values.password.length > 1) {
         errors.password = "must be 1 characters or less"
     }
 
-    //
-    // if(!values.description){
-    //     errors.description = "you must enter a description";
-    // }
-    // else if(values.description.length > 50){
-    //     errors.description = "must be 50 characters or less"
-    // }
+        //
+        // if(!values.description){
+        //     errors.description = "you must enter a description";
+        // }
+        // else if(values.description.length > 50){
+        //     errors.description = "must be 50 characters or less"
+        // }
 
-    return errors;
+        return errors;
 
-}
+    }
 
-const mapStateToProps = (state) => {
-    console.log("mapStateToProps", state);
-    return {
+    const mapStateToProps = (state) => {
+        console.log("mapStateToProps", state);
+        return {
         ipfs_hash: state.ipfs_hash.ipfsHashAv,
         web3_address: state.web3_address,
         electorate_voted: state.electorate_voted.arr
 
     }
-}
+    }
 
 
-export default reduxForm({
-    form: "ElectorateForm",
-    validate
-})(connect(mapStateToProps, {
-    setIPFSHash,
-    getIPFSHash,
-    setCurrentElectorate,
-    getElectorateVoted
-})(Electorate));
+    export default reduxForm({
+        form: "ElectorateForm",
+        validate
+    })(connect(mapStateToProps, {
+        setIPFSHash,
+        getIPFSHash,
+        setCurrentElectorate,
+        getElectorateVoted
+    })(Electorate));

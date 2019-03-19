@@ -3,10 +3,13 @@ import {getCandidates, vote} from "../redux/action"
 import {connect} from "react-redux"
 import {Field, reduxForm, SubmissionError} from "redux-form"
 import {Button, Container} from 'semantic-ui-react'
-import Thanks from "./Thanks"
+import Circle from 'react-circle';
 
 class Candidate extends React.Component {
 
+    state = {
+        percent: 0
+    }
 
     componentDidMount() {
         this.props.getCandidates();
@@ -66,10 +69,26 @@ class Candidate extends React.Component {
             })
         }
         if (this.props.current_voter) {
-            this.props.vote(candidates, this.props.current_voter.value);
+            this.props.vote(candidates, this.props.current_voter.value, this.onVote);
         }
     }
 
+    onVote = () => {
+        console.log("onVote in progress");
+
+        this.interval = setInterval(() => {
+            if (this.state.percent < 100) {
+                this.setState({percent: this.state.percent + 1})
+            } else {
+                clearInterval(this.interval);
+            }
+
+        }, 150)
+    }
+
+    componentWillUnmount(){
+        clearInterval(this.interval);
+    }
     renderVoter = () => {
 
         return (
@@ -97,6 +116,11 @@ class Candidate extends React.Component {
                     <label>
                         <Field name="voter_unavailable" component={this.renderField}/>
                     </label>
+                    <Container>
+                        <label style={{display: `${this.state.percent ? "" : "none"}`}}>
+                            <Circle progress={this.state.percent}/>
+                        </label>
+                    </Container>
                 </form>
             </div>
         )

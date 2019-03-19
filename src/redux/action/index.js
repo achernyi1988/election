@@ -1,7 +1,7 @@
 import types from "../reducer/types"
 import {smartContractData} from "../../ethereum/contractInstance"
 import history from "../../history"
-
+import sleep from "../../utils/sleep"
 
 export const setIPFSHash = (hash) => (dispatch) => {
     console.log("setIPFSHash");
@@ -75,11 +75,13 @@ export const getElectorateVoted = () => async (dispatch) => {
 }
 
 
-export const vote = (candidate, electorate ) => (dispatch) => {
+export const vote = (candidate, electorate, onVote ) =>  (dispatch) => {
     console.log("vote");
 
-    smartContractData.then( obj =>
+    smartContractData.then( async obj =>
         {
+            onVote();
+           // await sleep(15000)
             obj.instanceSM.methods.vote(candidate, electorate).send({
                 from: obj.accounts[0],
                 gas: "2000000"
