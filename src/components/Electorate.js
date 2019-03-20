@@ -12,29 +12,38 @@ import {Field, reduxForm, SubmissionError} from "redux-form"
 class Electorate extends React.Component {
 
     state = {
-        persons: [],
-        voted: []
+        persons: []
     }
 
-    componentDidMount() {
 
-        this.props.getIPFSHash();
-        this.props.getElectorateVoted();
+    async componentDidMount() {
+        console.log("componentDidMount this.state", this.state);
+        await this.props.getElectorateVoted();
+        await this.props.getIPFSHash();
+
+        if (this.props.ipfs_hash) {
+            console.log("componentDidMount.fetchIPFSData this.props.ipfs_hash", this.props.ipfs_hash);
+            this.fetchIPFSData(this.props.ipfs_hash);
+        }
     }
 
     componentDidUpdate(prevProps) {
-
+        console.log("componentDidUpdate prevProps", prevProps.ipfs_hash);
+        console.log("componentDidUpdate this.props", this.props.ipfs_hash);
         if (this.props.ipfs_hash !== prevProps.ipfs_hash) {
-            ipfs.files.cat(this.props.ipfs_hash)
-                .then(persons => {
-                    this.setPersons(persons);
-                    //this.props.initialize({value: "Gena"});
-                });
-
+            this.fetchIPFSData(this.props.ipfs_hash);
         }
         if (this.props.electorate_voted !== prevProps.electorate_voted) {
             this.updateVoted(this.state.persons, this.props.electorate_voted);
         }
+
+    }
+
+    fetchIPFSData = (ipfs_hash) => {
+        ipfs.files.cat(ipfs_hash)
+            .then(persons => {
+                this.setPersons(persons);
+            });
 
     }
 
@@ -61,7 +70,7 @@ class Electorate extends React.Component {
                 electorate.voted = true;
             }
         })
-
+        console.log("updateVoted");
         this.setState({persons: persons});
     }
     createIPFSHash = () => {
@@ -92,7 +101,7 @@ class Electorate extends React.Component {
     }
 
     renderField = (formProps) => {
-        console.log("renderField", formProps);
+
         const className = `field ${(formProps.meta.touched && formProps.meta.error) ? "error" : "" }`;
         return (
             <div className={className}>
@@ -169,50 +178,50 @@ class Electorate extends React.Component {
             </div>
 
 
-    )
+        )
     }
-    }
+}
 
-    const validate = (values) => {
-        const errors = {}
+const validate = (values) => {
+    const errors = {}
 
-        if (!values.password) {
+    if (!values.password) {
         errors.password = "you must enter a password";
     }
 
-        else if (values.password.length > 1) {
-        errors.password = "must be 1 characters or less"
+    else if (values.password.length > 2) {
+        errors.password = "must be 2 characters or less"
     }
 
-        //
-        // if(!values.description){
-        //     errors.description = "you must enter a description";
-        // }
-        // else if(values.description.length > 50){
-        //     errors.description = "must be 50 characters or less"
-        // }
+    //
+    // if(!values.description){
+    //     errors.description = "you must enter a description";
+    // }
+    // else if(values.description.length > 50){
+    //     errors.description = "must be 50 characters or less"
+    // }
 
-        return errors;
+    return errors;
 
-    }
+}
 
-    const mapStateToProps = (state) => {
-        console.log("mapStateToProps", state);
-        return {
+const mapStateToProps = (state) => {
+    console.log("mapStateToProps", state);
+    return {
         ipfs_hash: state.ipfs_hash.ipfsHashAv,
         web3_address: state.web3_address,
         electorate_voted: state.electorate_voted.arr
 
     }
-    }
+}
 
 
-    export default reduxForm({
-        form: "ElectorateForm",
-        validate
-    })(connect(mapStateToProps, {
-        setIPFSHash,
-        getIPFSHash,
-        setCurrentElectorate,
-        getElectorateVoted
-    })(Electorate));
+export default reduxForm({
+    form: "ElectorateForm",
+    validate
+})(connect(mapStateToProps, {
+    setIPFSHash,
+    getIPFSHash,
+    setCurrentElectorate,
+    getElectorateVoted
+})(Electorate));

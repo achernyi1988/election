@@ -6,6 +6,11 @@ const INITIAL_STATE = {
     ipfsHashAv: null
 }
 
+const initialArrayState = {
+
+    arr:[]
+}
+
 const ipfsHashReducer = (state = INITIAL_STATE, action) => {
     if(types.IPFS_HASH === action.type){
         return { ...state, ipfsHashAv: action.payload}
@@ -45,21 +50,17 @@ const electorateVotedReducer = (state = [], action) => {
     if(types.UPDATE_VOTED_LIST === action.type){
 
         return{
-
-            ...state,
-            arr: state.concat(action.payload)
+            arr:(action.payload)
         }
     }
     return state;
 }
 
-const candidateListReducer = (state = [], action) => {
+const candidateListReducer = (state = initialArrayState, action) => {
     if(types.UPDATE_CANDIDATE_LIST === action.type){
 
         return{
-
-            ...state,
-            arr: state.concat(action.payload)
+            arr:  (action.payload)
         }
     }
     return state;

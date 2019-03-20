@@ -14,27 +14,23 @@ class Thanks extends React.Component {
         this.progressBarIncreasing();
     }
 
-    switchToHome = () => {
-
-        // setTimeout(() => {
-        //     history.push("/");
-        // }, 5000);
-
-    }
-
     progressBarIncreasing = () => {
  
-        // this.interval = setInterval(() => {
-        //     console.log("progressBarIncreasing");
-        //
-        //     if (this.state.percent < 100) {
-        //         this.setState({percent: this.state.percent + 1})
-        //     } else {
-        //         clearInterval(this.interval);
-        //       history.push("/");
-        //     }
-        //
-        // }, 100)
+        this.interval = setInterval(() => {
+            console.log("progressBarIncreasing");
+
+            if (this.state.percent < 100) {
+                this.setState({percent: this.state.percent + 1})
+            } else {
+                clearInterval(this.interval);
+                history.push("/");
+            }
+
+        }, 100)
+    }
+
+    componentWillUnmount(){
+        clearInterval(this.interval);
     }
 
 
