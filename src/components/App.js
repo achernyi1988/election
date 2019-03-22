@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Electorate from "./Electorate"
 import Candidate from "./Candidate"
 import Thanks from "./Thanks"
+import Admin from "./Admin"
 
 import {Router, Route, Switch} from "react-router-dom"
 import {getContractAddress} from "../redux/action";
@@ -26,6 +27,7 @@ class App extends Component {
                         <Route path={"/"} exact component={(props) => <Electorate {...props} /> } />
                         <Route path={"/candidate"} exact component={(props) => <Candidate{...props}/> } />
                         <Route path={"/thanks"} exact component={Thanks}/>
+                        <Route path={"/admin"} exact component={Admin}/>
                     </Switch>
                 </Router>
             </div>
