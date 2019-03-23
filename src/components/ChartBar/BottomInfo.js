@@ -5,10 +5,10 @@ const BottomInfo = () => {
     const markerArr = Array(11).fill(null);
 
     return (
-        <div className="markers">
+        <div className="botton-info">
             {
                 markerArr.map((el, i) => (
-                    <span className="marker" style={{ left: `${i * 10}%` }}>
+                    <span className="botton-info" style={{ left: `${i * 10}%` }}>
           { i * 10 }
          </span>
                 ))

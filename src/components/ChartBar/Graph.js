@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import "./chartbar.css"
+import "./chartBar.css"
 
 import Line from "./Line"
 import BarTextContent from "./BarTextContent";
