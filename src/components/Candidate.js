@@ -33,10 +33,10 @@ class Candidate extends React.Component {
         const inactive = (formProps.label) ? "" : "none";
 
         return (
-            <div className={className}>
+            <div className={className} style={{fontSize: 20 + "px", marginTop: 20 + "px"}}>
                 <label style={{display: `${inactive}`}}>
                     <Field name={formProps.input.name} component="input" type={formProps.type} value={formProps.label}/>
-                    {formProps.label}
+                    {" " + formProps.label}
                 </label>
                 {this.renderError(formProps.meta)}
             </div>
@@ -47,8 +47,8 @@ class Candidate extends React.Component {
         if (!this.props.candidates) {
             return null;
         }
-        return (<Container>
-            <label>Candidates:</label>
+        return (<div>
+            <h3>Кандидаты:</h3>
             {this.props.candidates.map((candidate) => {
                 return <div key={candidate.fullName}>
                     <label>
@@ -57,7 +57,7 @@ class Candidate extends React.Component {
                     </label>
                 </div>
             })}
-        </Container>)
+        </div>)
     }
     onSubmit = ({candidates}) => {
         console.log("onSubmit", candidates, this.props.current_voter);
@@ -83,18 +83,19 @@ class Candidate extends React.Component {
                 clearInterval(this.interval);
             }
 
-        }, 150)
+        }, 200)
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         clearInterval(this.interval);
     }
+
     renderVoter = () => {
 
         return (
             <div>
-                <h3> Welcome {this.props.current_voter.text} ! </h3>
-                <h4> Please vote for a candidate </h4>
+                <h3> Приветствуем {this.props.current_voter.text} ! </h3>
+                <h4> Пожалуйста выберите кандидата из списка и проголосуйте </h4>
             </div>
         )
     }
@@ -105,14 +106,15 @@ class Candidate extends React.Component {
         const {pristine, reset, submitting} = this.props;
 
         return (
-            <div>
+            <Container>
                 {this.renderVoter()}
                 <form className={"ui form error"} onSubmit={this.props.handleSubmit(this.onSubmit)}>
 
                     {this.renderRadioButtons()}
-
-                    <Button primary disabled={submitting}>Log In</Button>
-                    <Button negative disabled={pristine || submitting} onClick={reset}>Clear Values </Button>
+                    <div style={{marginTop: 50 + "px"}}>
+                        <Button primary disabled={submitting}>Проголосовать</Button>
+                        <Button negative disabled={pristine || submitting} onClick={reset}>Очистить </Button>
+                    </div>
                     <label>
                         <Field name="voter_unavailable" component={this.renderField}/>
                     </label>
@@ -122,7 +124,7 @@ class Candidate extends React.Component {
                         </label>
                     </Container>
                 </form>
-            </div>
+            </Container>
         )
     }
 }

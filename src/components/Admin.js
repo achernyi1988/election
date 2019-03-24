@@ -1,28 +1,35 @@
 import React, {Component} from 'react';
-import {Container} from 'semantic-ui-react'
 import Graph from "./ChartBar/Graph"
-
-const data = [
-    {text: "Man", value: 30},
-    {text: "Woman", value: 15}
-];
-
-const margin = {top: 10, right: 0, bottom: 20, left: 50};
+import {getElectionResult} from "../redux/action"
+import {connect} from "react-redux"
+import history from "../history"
 
 
 class Admin extends Component {
 
     componentDidMount() {
+        this.props.getElectionResult();
+    }
 
+    onHome() {
+        history.push("/");
     }
 
     render() {
         return (
             <div>
-                <Graph/>
+                <Graph candidates={this.props.candidates}/>
+                <div style={{marginTop: 10 + "%"}}>
+                    <button onClick={this.onHome}> Back to home</button>
+                </div>
             </div>
         )
     }
 }
 
-export default Admin;
+const mapStateToProps = (state) => {
+    console.log("mapStateToProps candidates_result", state.candidates_result.arr);
+    return {candidates: state.candidates_result.arr}
+}
+
+export default connect(mapStateToProps, {getElectionResult})(Admin);

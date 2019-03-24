@@ -67,7 +67,8 @@ export const getElectorateVoted = () => async (dispatch) => {
 
     let arr = [];
     for(let i = 0; i < length; ++i){
-        arr.push(await instanceSM.methods.votersArray(i).call());
+        const {voter} = await instanceSM.methods.votersArray(i).call()
+        arr.push(voter);
     }
     console.log("getElectorateVoted:result ", arr);
     dispatch({type: types.UPDATE_VOTED_LIST, payload: arr})
@@ -109,5 +110,19 @@ export const getCandidates = () => async (dispatch) => {
     }
     console.log("getCandidates:result ", arr);
     dispatch({type: types.UPDATE_CANDIDATE_LIST, payload: arr})
+
+}
+
+export const getElectionResult = () => async (dispatch) => {
+    const {instanceSM} = await smartContractData.then( );// obj =>
+    const length =  await instanceSM.methods.getNumberOfContender().call();
+
+    let arr = [];
+    for(let i = 0; i < length; ++i){
+        arr.push(await instanceSM.methods.contender(i).call());
+    }
+    arr.sort(function(a, b){return b.voteCounter - a.voteCounter});
+    console.log("getCandidates:result after sort ", arr);
+    dispatch({type: types.UPDATE_CANDIDATE_LIST_RESULT, payload: arr})
 
 }

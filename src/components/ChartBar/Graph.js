@@ -4,49 +4,26 @@ import "./chartBar.css"
 import Line from "./Line"
 import BarTextContent from "./BarTextContent";
 import Bar from "./Bar";
-import BottomInfo from "./BottomInfo"
-const currencies = [
-    {
-        currencyName: 'Bitcoin',
-        marketCap: 106330074359
-    },
-    {
-        currencyName: 'Ethereum',
-        marketCap: 32402945322
-    },
-    {
-        currencyName: 'XRP',
-        marketCap: 11864383092
-    },
-    {
-        currencyName: 'Bitcoin Cash',
-        marketCap: 9612908814
-    },
-    {
-        currencyName: 'EOS',
-        marketCap: 4644155391
-    },
-    {
-        currencyName: 'Stellar',
-        marketCap: 4084424747
-    }
-]
+import PercentageBottom from "./PercentageBottom"
 
 class Graph extends Component {
-    state = {}
 
-    renderBars(){
 
-        let sumOfAllCurrencies = currencies.reduce((total, currency) => {
-            return total + currency.marketCap;
+    renderBars() {
+        const {candidates} = this.props;
+
+        let sumOfAllVoters = candidates.reduce((total, candidate) => {
+            return total + Number(candidate.voteCounter);
         }, 0)
 
-        return currencies.map((currency) => {
-            const percent = (currency.marketCap / sumOfAllCurrencies) * 100;
+        return candidates.map((candidate) => {
+            const percent = (candidate.voteCounter / sumOfAllVoters) * 100;
+
             return (
                 <Bar
-                percent={percent}
-                key={currency.currencyName}
+                    percent={Math.round(percent * 10 ) / 10}
+                    length={candidates.length}
+                    key={candidate.fullName}
                 />
             )
         })
@@ -61,11 +38,11 @@ class Graph extends Component {
         )
     }
 
-    renderButtomPercentage(){
+    renderButtomPercentage() {
 
 
         return Array(11).fill(null).map((el, i) => {
-                return <BottomInfo
+                return <PercentageBottom
                     percent={i * 10} key={i}
                 />
             }
@@ -74,17 +51,22 @@ class Graph extends Component {
 
     render() {
         return (
-            <div className={"graph-wrapper"}>
+            <div className={"ui container"}>
+            <h1>Результаты выборов Украины 2019!</h1>
                 <div className={"graph"}>
-                    <BarTextContent currencies={currencies}/>
+
+                    <BarTextContent candidates={this.props.candidates} />
                     <div className={"bar-lines-container"}>
                         {this.renderLines()}
-                        {this.renderBars()}
+                        <span>
+                            {this.renderBars()}
+                        </span>
                     </div>
-                    <div style={{ width: '12%' }} />
-                    <BottomInfo />
+
+                    <PercentageBottom>  </PercentageBottom>
                 </div>
             </div>
+
         )
     }
 }

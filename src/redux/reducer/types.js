@@ -6,6 +6,6 @@ export  default ElectionType ( {
     CURRENT_CANDIDATE: null,
     WEB3_ADDRESS:null,
     UPDATE_VOTED_LIST: null,
-    UPDATE_CANDIDATE_LIST: null
+    UPDATE_CANDIDATE_LIST: null,
+    UPDATE_CANDIDATE_LIST_RESULT: null
 })
-

@@ -23,10 +23,10 @@ class Thanks extends React.Component {
                 this.setState({percent: this.state.percent + 1})
             } else {
                 clearInterval(this.interval);
-                history.push("/");
+                history.push("/admin");
             }
 
-        }, 100)
+        }, 30)
     }
 
     componentWillUnmount(){
@@ -42,7 +42,7 @@ class Thanks extends React.Component {
 
         return (
             <Container>
-                Thanks,{" " + this.props.current_voter.text} for a vote which is
+                Спасибо,{" " + this.props.current_voter.text} за Ваш голос за кандидата
                 {" " + this.props.current_candidate.text}
                 <div>
                     <Progress percent={this.state.percent} indicating progress/>

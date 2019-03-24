@@ -15,11 +15,11 @@ let web3;
     // );
 
 const provider = new HWWalletProvider(
-    //'velvet weasel owner rookie agree fit cushion like burden dance tragic lock',
-    //'https://rinkeby.infura.io/v3/57028538b43b43ba80e3f61b7e6b5390',
+    'velvet weasel owner rookie agree fit cushion like burden dance tragic lock',
+    'https://rinkeby.infura.io/v3/57028538b43b43ba80e3f61b7e6b5390',
 
-    "diagram alcohol plate absurd phone again right child muffin praise rose tell",
-    "HTTP://127.0.0.1:9545",
+    // "diagram alcohol plate absurd phone again right child muffin praise rose tell",
+    // "HTTP://127.0.0.1:9545",
     0,
     10
 );

@@ -28,8 +28,6 @@ class Electorate extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        console.log("componentDidUpdate prevProps", prevProps.ipfs_hash);
-        console.log("componentDidUpdate this.props", this.props.ipfs_hash);
         if (this.props.ipfs_hash !== prevProps.ipfs_hash) {
             this.fetchIPFSData(this.props.ipfs_hash);
         }
@@ -64,8 +62,12 @@ class Electorate extends React.Component {
         if (!votedPersons) {
             return;
         }
+        console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! votedPersons", votedPersons);
         votedPersons.forEach((value) => {
             let electorate = _.find(persons, ['value', value]);
+
+            console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! persons", persons);
+            console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! electorate", electorate);
             if (electorate) {
                 electorate.voted = true;
             }
@@ -153,7 +155,7 @@ class Electorate extends React.Component {
 
 
                                 <Field name="electorate" component="select">
-                                    <option>choose your name</option>
+                                    <option>Выберите Вас из списка</option>
                                     {this.state.persons.map((person) => {
 
                                         // const inactive = person.voted;//(person.password === "5");
@@ -165,16 +167,21 @@ class Electorate extends React.Component {
                                 </Field>
                                 <Field name="password" type="password" component={this.renderField} label="Password"/>
 
-                                <Button primary disabled={submitting}>Log In</Button>
-                                <Button negative disabled={pristine || submitting} onClick={reset}>Clear
-                                    Values </Button>
+                                <Button primary disabled={submitting}>Войти</Button>
+                                <Button negative disabled={pristine || submitting} onClick={reset}>
+                                    Почистить </Button>
                             </form>
 
                         </div>
                     </div>
-                    <Container><Button style={{display: `${inactive}`}}
-                                       onClick={this.createIPFSHash}>createIPFSHash</Button></Container>
+
                 </Container>
+                <div style={{marginLeft: 50 + "px", marginTop: 300 + "px", display: `${inactive}`}}>
+                    Admin action
+                    <div>
+                        <Button onClick={this.createIPFSHash}>createIPFSHash</Button>
+                    </div>
+                </div>
             </div>
 
 

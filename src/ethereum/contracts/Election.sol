@@ -17,25 +17,30 @@ contract Election is IElection{
         uint256 voteCounter;
     }
 
+    struct VoterData{
+        string voter;
+        string contender;
+    }
+
     ContenderData [] public contender;
-    //  mapping(string => ContenderData) contender;
     mapping(string => uint256) contenderId;
     uint256 public currentContenderID;
     mapping(string => bool) contenderRegistered;
     mapping(string => bool) electorateVoted;
 
     mapping(string => bool) votersMap;
-    string [] public votersArray;
+    VoterData [] public votersArray;
 
     constructor()public {
         admin = msg.sender;
 
-        addContender("Zelenskiy", "Slyga Narody" );
-        addContender("Poroshenko", "Partia svoboda" );
-        addContender("Timoshenko", "Democratia" );
-        addContender("Boyko", "Vosrojdenie" );
-        addContender("Grecenko", "nacialistu" );
-        addContender("Vilkov", "Vosrojdenie" );
+        addContender("Бойко", "Slyga Narody" );
+        addContender("Вилков", "Partia svoboda" );
+        addContender("Гриценко", "Democratia" );
+        addContender("Зеленський", "Vosrojdenie" );
+        addContender("Порошенко", "nacialistu" );
+        addContender("Тимошенко", "Vosrojdenie" );
+        addContender("Против всех", "Vosrojdenie" );
     }
 
     string ipfsHash;
@@ -86,7 +91,7 @@ contract Election is IElection{
 
         electorateVoted[_electorate] = true;
 
-        votersArray.push(_electorate);
+        votersArray.push(VoterData(_electorate , _contender));
 
         emit OnVote(_contender, _electorate);
     }

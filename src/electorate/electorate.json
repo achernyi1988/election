@@ -1,52 +1,62 @@
 [
   {
-    "id": "0x1_Alex",
-    "name": "Alex",
+    "id": "1",
+    "name": "Александр Чёрный",
     "password": "1"
   },
   {
-    "id": "0x2_Elena",
-    "name": "Elena",
+    "id": "2",
+    "name": "Елена Чёрная",
     "password": "2"
   },
   {
-    "id": "0x3_Diana",
-    "name": "Diana",
+    "id": "3",
+    "name": "Василий Чёрный",
     "password": "3"
   },
   {
-    "id": "0x4_Tom",
-    "name": "Tom",
+    "id": "4",
+    "name": "Светлана Чёрная",
     "password": "4"
   },
   {
-    "id": "0x5_Gena",
-    "name": "Gena",
+    "id": "5",
+    "name": "Надежда Смирнова",
     "password": "5"
   },
   {
-    "id": "0x6_Jim",
-    "name": "Jim",
+    "id": "6",
+    "name": "Александра Смирнова",
     "password": "6"
   },
   {
-    "id": "0x7_Sveta",
-    "name": "Sveta",
+    "id": "7",
+    "name": "Сергей Смирнов",
     "password": "7"
   },
   {
-    "id": "0x8_Вася",
-    "name": "Вася",
+    "id": "8",
+    "name": "Мария Чёрная",
     "password": "8"
   },
   {
-    "id": "0x9_Piter",
-    "name": "Piter",
+    "id": "9",
+    "name": "Татьяна Чёрная",
     "password": "9"
   },
   {
-    "id": "0x10_Angelika",
-    "name": "Angelika",
+    "id": "10",
+    "name": "Екатерина Ткаченко",
     "password": "10"
+  },
+  {
+    "id": "11",
+    "name": "Игорь Ткаченко",
+    "password": "11"
+  },
+  {
+    "id": "12",
+    "name": "Евгений Чёрный",
+    "password": "12"
   }
 ]
