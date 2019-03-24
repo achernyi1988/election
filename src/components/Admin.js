@@ -16,6 +16,9 @@ class Admin extends Component {
     }
 
     render() {
+        if(!this.props.candidates){
+            return <div>no candidates</div>;
+        }
         return (
             <div>
                 <Graph candidates={this.props.candidates}/>
