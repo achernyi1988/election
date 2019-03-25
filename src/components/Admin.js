@@ -16,8 +16,9 @@ class Admin extends Component {
     }
 
     render() {
-        if(!this.props.candidates){
-            return <div>no candidates</div>;
+        console.log("Admin:render props", this.props);
+        if(!this.props.candidates || this.props.candidates.length === 0){
+            return <div>no candidates. Wait. Loading ...</div>;
         }
         return (
             <div>

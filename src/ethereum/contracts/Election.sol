@@ -83,7 +83,7 @@ contract Election is IElection{
 
     function vote(string  _contender, string _electorate ) external  NotContender(_contender) {
 
-        //voters[msg.sender] = true;
+        require(!electorateVoted[_electorate]);
 
         ContenderData storage voted = contender[getContenderIndex(_contender)];
 

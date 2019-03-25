@@ -62,12 +62,10 @@ class Electorate extends React.Component {
         if (!votedPersons) {
             return;
         }
-        console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! votedPersons", votedPersons);
+
         votedPersons.forEach((value) => {
             let electorate = _.find(persons, ['value', value]);
 
-            console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! persons", persons);
-            console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! electorate", electorate);
             if (electorate) {
                 electorate.voted = true;
             }
@@ -147,6 +145,7 @@ class Electorate extends React.Component {
         return (
 
             <div>
+                {this.state.persons.length}
                 <Container>
                     <div className={"ui grid"}>
                         <div className={"eight wide column"}>
