@@ -101,8 +101,6 @@ class Candidate extends React.Component {
     }
 
     render() {
-        console.log("props = ", this.props)
-
         const {pristine, reset, submitting} = this.props;
 
         return (

@@ -4,6 +4,167 @@
     box-sizing: border-box;
     font-family: "Ubuntu";
 }
+/*************HEADER**************/
+header{
+    margin: 0 !important;
+    background-color: #558bb3 !important;
+    color: #fff;
+}
+header .container{
+    align-items: center !important;
+}
+header img{
+    width: 120px;
+    height: 80px;
+}
+header h3{
+    display: inline-block;
+    width: 100%;
+    text-align: right;
+    color: #fff;
+    font-weight: normal;
+    text-transform: uppercase;
+    font-size: 22px;
+    line-height: 1.3;
+    margin: 0;
+    padding: 20px;
+}
+h3 span{
+    font-weight: bold;
+    font-size: 30px;
+}
+
+/************QUOTE*******************/
+.quote{
+    min-height: 550px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.quote:before{
+    content: '';
+    display: block;
+    position: absolute;
+    top:  0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+blockquote{
+    margin: 0;
+    position: relative;
+    z-index: 10;
+    color: #fff;
+    max-width: 900px;
+}
+blockquote h2{
+    margin: 0;;
+    margin-bottom: 20px;
+    font-size: 55px;
+    line-height: 1.1;
+    color: white;
+    font-weight: 700;
+    letter-spacing: -1px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+}
+blockquote p{
+    text-align: right;
+    color: #ccc;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+    font-size: 22px;
+    line-height: 30px;
+    font-family: 'Droid Serif','Times New Roman','Times',serif;
+    font-weight: normal;
+    font-style: italic;
+    letter-spacing: 0;
+}
+.vote{
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    margin-left: -75px;
+    width: 150px;
+    text-align: center;
+}
+.vote p{
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 20px;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+}
+.vote i{
+    color: #fff;
+    font-size: 35px;
+}
+/****************FORM*******************/
+.vote-form{
+    padding: 100px 0;
+    background: rgba(34,36,38,.1);
+}
+.vote-form h3{
+    color: #558bb3;
+    font-size: 26px;
+    margin-bottom: 35px;
+}
+.vote-form label{
+    color: #b17f08  !important;
+    font-size: 16px !important;
+    font-weight: normal !important;
+}
+.vote-form p{
+    font-size: 18px;
+    color: rgba(53, 53, 53, 0.87);
+    line-height: 1.3;
+}
+.form-field{
+    margin-bottom: 25px;
+}
+.vote-form img{
+    display: block;
+    width: 80px;
+    margin: 25px auto;
+}
+.vote-form .field-15{
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+.vote-form .ui.button{
+
+}
+.vote-form .ui.buttons{
+    width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 h2 {
     text-align: center;
@@ -95,4 +256,18 @@ h1{
     transform: translateX(-6px);
     font-weight: 300;
     font-size: 14.5px;
+}
+
+
+/****************FOOTER****************/
+footer{
+    padding: 30px;
+    text-align: center;
+    background-color: #222222;
+    color: #d4d4d5;
+    font-size: 12px;
+    font-weight: normal;
+}
+footer p{
+    margin: 0;
 }

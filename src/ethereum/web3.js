@@ -24,7 +24,15 @@ const provider = new HWWalletProvider(
     10
 );
 
+if( typeof window !== "undefined" &&
+    typeof window.web3 !== "undefined" &&
+    typeof window.web3.currentProvider.selectedAddress !== "undefined" ) {
+// we are in the browser and metamask is running.
+    console.log("use current address  ", window.web3);
+    web3 = new Web3(window.web3.currentProvider);
+}else{
     web3 = new Web3(provider);
+}
 console.log("web3 web3 web3 ", web3);
 // }
 
