@@ -105,9 +105,8 @@ class Electorate extends React.Component {
         const className = `field ${(formProps.meta.touched && formProps.meta.error) ? "error" : "" }`;
         return (
             <div className={className}>
-                <label> {formProps.label} </label>
                 <input
-                    {...formProps.input}
+                    {...formProps.input}  type={formProps.type}
                 />
                 {this.renderError(formProps.meta)}
             </div>
@@ -161,10 +160,11 @@ class Electorate extends React.Component {
 
         const {handleSubmit, pristine, reset, submitting} = this.props;
 
-        const inactive = (this.props.web3_address.admin === this.props.web3_address.user) ? "" : "none";
+        const {admin, user} = this.props.web3_address;
+
+        const inactive = (admin != null && user === admin) ? "" : "none";
 
         return (
-
             <div>
                 {this.quote(imageUrl)}
                 <div className="vote-form">
@@ -200,14 +200,14 @@ class Electorate extends React.Component {
                                     </div>
                                     <div className="form-field">
                                         <label><i className="unlock icon"></i> Ваш Пароль</label>
-                                        <Field name="password" type="password" component={this.renderField}/>
+                                        <Field name="password" type="password" component={this.renderField} label={"Password"}/>
                                     </div>
                                     <div className="ui buttons">
                                         <Button primary disabled={submitting}>
                                             Войти
                                         </Button>
                                         <div className="or"></div>
-                                        <Button grey disabled={pristine || submitting} onClick={reset}>
+                                        <Button  disabled={pristine || submitting} onClick={reset}>
                                             Сбросить
                                         </Button>
                                     </div>
