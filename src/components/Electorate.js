@@ -5,7 +5,7 @@ import {setIPFSHash, getIPFSHash, setCurrentElectorate, getElectorateVoted} from
 import {connect} from "react-redux"
 import {Button, Container} from 'semantic-ui-react'
 import _ from 'lodash'
-
+import imageUrl from './background.jpg'
 
 import {Field, reduxForm, SubmissionError} from "redux-form"
 
@@ -13,7 +13,7 @@ class Electorate extends React.Component {
 
     state = {
         persons: []
-    }
+    };
 
 
     async componentDidMount() {
@@ -43,7 +43,7 @@ class Electorate extends React.Component {
                 this.setPersons(persons);
             });
 
-    }
+    };
 
     setPersons = (persons) => {
         const personsOptions = _.map(JSON.parse(persons), person => ({
@@ -53,10 +53,10 @@ class Electorate extends React.Component {
                 password: person.password,
                 voted: false
             })
-        )
+        );
 
         this.updateVoted(personsOptions, this.props.electorate_voted);
-    }
+    };
 
     updateVoted = (persons, votedPersons) => {
         if (!votedPersons) {
@@ -136,6 +136,27 @@ class Electorate extends React.Component {
         this.props.history.push("/candidate");
     }
 
+    quote = (imageUrl) => {
+        return(
+            <div className="quote" style={{backgroundImage: `url(${imageUrl})` }}>
+                <blockquote>
+                    <h2>
+                        Тот, кто будет управлять всеми, должен быть избран среди всех.
+                    </h2>
+                    <p>
+                        Плиний Младший, римский писатель
+                    </p>
+                </blockquote>
+                <div className="vote">
+                    <p>Голосовать</p>
+                    <div className="arrow-ico">
+                        <i className="arrow circle down icon"></i>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     render() {
 
         const {handleSubmit, pristine, reset, submitting} = this.props;
@@ -145,42 +166,58 @@ class Electorate extends React.Component {
         return (
 
             <div>
-                {this.state.persons.length}
-                <Container>
-                    <div className={"ui grid"}>
-                        <div className={"eight wide column"}>
-                            <form className={"ui form error"} onSubmit={handleSubmit(this.onSubmit)}>
-                                {/*<Select placeholder={"input your name"} onChange={this.handleChange} options={this.state.persons}/>*/}
+                {this.quote(imageUrl)}
+                <div className="vote-form">
+                    <div className="ui container">
+                        <form className={"ui form error"} onSubmit={handleSubmit(this.onSubmit)}>
+                            {/*<Select placeholder={"input your name"} onChange={this.handleChange} options={this.state.persons}/>*/}
+                            <div className="two fields">
+                                <div className="field field-15">
+                                    <img src="gerb.png" alt="gerb"/>
+                                    <p>
+                                        Очередные выборы президента Украины в соответствии с Конституцией Украины назначены Верховной Радой Украины на воскресенье 31 марта 2019 года.
+                                    </p>
+                                    <p>
+                                        Глава государства будет избран путём прямого всеобщего тайного голосования на пятилетний срок.
+                                    </p>
+                                    <Button onClick={this.createIPFSHash}>createIPFSHash</Button>
+                                </div>
+                                <div className="field field-15">
+                                    <h3>Войдите в систему для голосования</h3>
+                                    <div className="form-field">
+                                        <label><i className="user icon"></i> Ваше Имя</label>
+                                        <Field name="electorate" component="select">
+                                            <option> </option>
+                                            {this.state.persons.map((person) => {
+                                                // const inactive = person.voted;//(person.password === "5");
+                                                return (
+                                                    <option key={person.key} value={person.value}
+                                                            disabled={person.voted}>{person.text}</option>
+                                                )
+                                            })}
+                                        </Field>
+                                    </div>
+                                    <div className="form-field">
+                                        <label><i className="unlock icon"></i> Ваш Пароль</label>
+                                        <Field name="password" type="password" component={this.renderField}/>
+                                    </div>
+                                    <div className="ui buttons">
+                                        <Button primary disabled={submitting}>
+                                            Войти
+                                        </Button>
+                                        <div className="or"></div>
+                                        <Button grey disabled={pristine || submitting} onClick={reset}>
+                                            Сбросить
+                                        </Button>
+                                    </div>
+                                </div>
 
+                            </div>
 
-                                <Field name="electorate" component="select">
-                                    <option>Выберите Вас из списка</option>
-                                    {this.state.persons.map((person) => {
-
-                                        // const inactive = person.voted;//(person.password === "5");
-                                        return (
-                                            <option key={person.key} value={person.value}
-                                                    disabled={person.voted}>{person.text}</option>
-                                        )
-                                    })}
-                                </Field>
-                                <Field name="password" type="password" component={this.renderField} label="Password"/>
-
-                                <Button primary disabled={submitting}>Войти</Button>
-                                <Button negative disabled={pristine || submitting} onClick={reset}>
-                                    Почистить </Button>
-                            </form>
-
-                        </div>
-                    </div>
-
-                </Container>
-                <div style={{marginLeft: 50 + "px", marginTop: 300 + "px", display: `${inactive}`}}>
-                    Admin action
-                    <div>
-                        <Button onClick={this.createIPFSHash}>createIPFSHash</Button>
+                        </form>
                     </div>
                 </div>
+
             </div>
 
 

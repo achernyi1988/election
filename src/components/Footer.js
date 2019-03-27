@@ -1,16 +1,14 @@
 import React from "react"
 
-class Header extends React.Component{
+class Footer extends React.Component{
     render(){
         return(
-            <header className="ui inverted menu">
-                <div className="ui container">
-                    <img src="Flag_of_Ukraine_(with_coat_of_arms).svg" alt="logo"/>
-                    <h3>Выборы Украины <span>2019</span></h3>
-                </div>
-            </header>
+            <footer>
+                <p>© All rights reserved</p>
+                <p>Election Ukraine 2019</p>
+            </footer>
         )
     }
 }
 
-export default Header;
+export default Footer;
