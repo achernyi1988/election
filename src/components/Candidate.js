@@ -4,11 +4,20 @@ import {connect} from "react-redux"
 import {Field, reduxForm, SubmissionError} from "redux-form"
 import {Button} from 'semantic-ui-react'
 import history from "../history";
+import timer from "../utils/timer"
+import _ from "lodash"
 
 class Candidate extends React.Component {
 
     componentDidMount() {
         this.props.getCandidates();
+
+        timer(1000).then( () => {
+            if(_.isEmpty(this.props.current_voter) ){
+                console.log("isEmpty obj. switch to home page " );
+                history.push("/");
+            }
+        });
     }
 
     renderError = ({error, touched}) => {
@@ -24,7 +33,6 @@ class Candidate extends React.Component {
     }
 
     renderField = (formProps) => {
-        console.log("renderField", formProps);
         const className = `field ${(formProps.meta.touched && formProps.meta.error) ? "error" : "" }`;
         const inactive = (formProps.label) ? "" : "none";
 
@@ -106,6 +114,9 @@ class Candidate extends React.Component {
     }
 
     render() {
+        console.log("Candidate:render", this.props.current_voter);
+
+
         const {pristine, reset, submitting} = this.props;
 
         return (

@@ -1,5 +1,5 @@
-const sleep = (milliseconds) => {
+const timer = (milliseconds) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
 
-export default sleep;
+export default timer;
