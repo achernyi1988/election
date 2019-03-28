@@ -39,17 +39,21 @@ class Thanks extends React.Component {
     render() {
         console.log("Thanks:render this.props.current_voter.text", this.props.current_voter.text);
         if (!this.props.current_voter.text) {
-            return <div>Обрабатываються данные! Подождите, пожалуйста</div>
+            return(
+                <div className="padding-100 container ui">
+                    <p>Обрабатываються данные! Подождите, пожалуйста</p>
+                </div>
+            )
         }
 
         return (
-            <Container>
-                Спасибо,{" " + this.props.current_voter.text} за Ваш голос !
-                Подождите, пожалуйста загружаються результаты выборов на текущий момент времени
+            <div className="padding-100 container ui list-candidates">
+                <h3>Спасибо,<span>{" " + this.props.current_voter.text}</span> за Ваш голос !</h3>
+                <p>Подождите, пожалуйста, загружаються результаты выборов на текущий момент времени.</p>
                 <div>
                     <Progress percent={this.state.percent} indicating progress/>
                 </div>
-            </Container>
+            </div>
         )
     }
 }
