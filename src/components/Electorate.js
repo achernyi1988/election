@@ -5,7 +5,7 @@ import {setIPFSHash, getIPFSHash, setCurrentElectorate, getElectorateVoted} from
 import {connect} from "react-redux"
 import {Button, Container} from 'semantic-ui-react'
 import _ from 'lodash'
-import imageUrl from './img/background.jpg'
+import imageUrl from './img/2.jpg'
 
 import {Field, reduxForm, SubmissionError} from "redux-form"
 
@@ -143,7 +143,7 @@ class Electorate extends React.Component {
                         Тот, кто будет управлять всеми, должен быть избран среди всех.
                     </h2>
                     <p>
-                        Плиний Младший, римский писатель
+                        - Плиний Младший, римский писатель
                     </p>
                 </blockquote>
                 <div className="vote">
@@ -167,7 +167,7 @@ class Electorate extends React.Component {
         return (
             <div>
                 {this.quote(imageUrl)}
-                <div className="vote-form">
+                <div className="padding-100 vote-form">
                     <div className="ui container">
                         <form className={"ui form error"} onSubmit={handleSubmit(this.onSubmit)}>
                             {/*<Select placeholder={"input your name"} onChange={this.handleChange} options={this.state.persons}/>*/}
@@ -175,12 +175,10 @@ class Electorate extends React.Component {
                                 <div className="field field-15">
                                     <img src="gerb.png" alt="gerb"/>
                                     <p>
-                                        Очередные выборы президента Украины в соответствии с Конституцией Украины
-                                        назначены Верховной Радой Украины на воскресенье 31 марта 2019 года.
+                                        Очередные выборы президента Украины в соответствии с Конституцией Украины назначены Верховной Радой Украины на воскресенье 31 марта 2019 года.
                                     </p>
                                     <p>
-                                        Глава государства будет избран путём прямого всеобщего тайного голосования на
-                                        пятилетний срок.
+                                        Глава государства будет избран путём прямого всеобщего тайного голосования на пятилетний срок.
                                     </p>
                                 </div>
                                 <div className="field field-15">
@@ -188,7 +186,7 @@ class Electorate extends React.Component {
                                     <div className="form-field">
                                         <label><i className="user icon"></i> Ваше Имя</label>
                                         <Field name="electorate" component="select">
-                                            <option></option>
+                                            <option> </option>
                                             {this.state.persons.map((person) => {
                                                 // const inactive = person.voted;//(person.password === "5");
                                                 return (
@@ -207,7 +205,7 @@ class Electorate extends React.Component {
                                             Войти
                                         </Button>
                                         <div className="or"></div>
-                                        <Button  disabled={pristine || submitting} onClick={reset}>
+                                        <Button disabled={pristine || submitting} onClick={reset}>
                                             Сбросить
                                         </Button>
                                     </div>

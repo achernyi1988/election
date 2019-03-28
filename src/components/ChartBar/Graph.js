@@ -52,7 +52,7 @@ class Graph extends Component {
     render() {
         return (
             <div className={"ui container"}>
-            <h1>Результаты выборов Украины 2019!</h1>
+            <h1>Результаты голосования</h1>
                 <div className={"graph"}>
 
                     <BarTextContent candidates={this.props.candidates} />
