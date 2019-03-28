@@ -25,7 +25,7 @@ class Result extends Component {
            !electorateVoted || electorateVoted.length === 0){
             return(
                 <div className="padding-100 container ui">
-                    <p>Загужаються результаты выборов. Пождите, пожалуйста.</p>
+                    <p>Загужаються результаты выборов. Подождите, пожалуйста.</p>
                 </div>
             )
         }
