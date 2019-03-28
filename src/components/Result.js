@@ -23,7 +23,11 @@ class Result extends Component {
 
         if(!candidates || candidates.length === 0 ||
            !electorateVoted || electorateVoted.length === 0){
-            return <div>Загужаються результаты выборов. Пождите, пожалуйста.</div>;
+            return(
+                <div className="padding-100 container ui">
+                    <p>Загужаються результаты выборов. Подождите, пожалуйста.</p>
+                </div>
+            )
         }
         return (
             <div className="padding-100">

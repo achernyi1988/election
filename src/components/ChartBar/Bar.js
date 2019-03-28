@@ -10,8 +10,8 @@ const Bar = ({percent, length}) => {
 
             <div className={"bar"} style={{width: `${percent}%`, height: 100 / length + "%"}}>
 
-                <div className={"bar-percent"}>
-                    <span>{percent + "%"}</span>
+                <div className={"bar-percent tooltip"}>
+                    <span className={"tooltiptext"}>{percent + "%"}</span>
                 </div>
 
             </div>
