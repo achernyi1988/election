@@ -44,7 +44,7 @@ contract Election is IElection{
         addContender("Смешко И.П.", "Vosrojdenie" );
         addContender("Вилкул А.Ю.", "Vosrojdenie" );
 
-        addContender("Тарута С.А.", "Vosrojdenie" );
+        addContender("Садовый А.И.", "Vosrojdenie" );
 
         addContender("Против всех", "Vosrojdenie" );
     }
