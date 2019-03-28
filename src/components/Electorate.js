@@ -3,7 +3,7 @@ import ipfs from "../ethereum/api/ipfs_client"
 import json_file from '../electorate/electorate.json';
 import {setIPFSHash, getIPFSHash, setCurrentElectorate, getElectorateVoted} from "../redux/action"
 import {connect} from "react-redux"
-import {Button, Container} from 'semantic-ui-react'
+import {Button} from 'semantic-ui-react'
 import _ from 'lodash'
 import imageUrl from './img/2.jpg'
 
@@ -37,6 +37,18 @@ class Electorate extends React.Component {
 
     }
 
+    sortPersonsByAlphabet = (persons)=>{
+
+        console.log("sortPersonsByAlphabet" , persons);
+        persons.sort(function(a, b){
+            if (a.text < b.text)
+                return -1;
+            if ( a.text > b.text)
+                return 1;
+            return 0;
+        });
+    }
+
     fetchIPFSData = (ipfs_hash) => {
         ipfs.files.cat(ipfs_hash)
             .then(persons => {
@@ -54,7 +66,7 @@ class Electorate extends React.Component {
                 voted: false
             })
         );
-
+        this.sortPersonsByAlphabet(personsOptions);
         this.updateVoted(personsOptions, this.props.electorate_voted);
     };
 

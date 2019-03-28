@@ -38,21 +38,11 @@ class Graph extends Component {
         )
     }
 
-    renderButtomPercentage() {
-
-
-        return Array(11).fill(null).map((el, i) => {
-                return <PercentageBottom
-                    percent={i * 10} key={i}
-                />
-            }
-        )
-    }
-
     render() {
         return (
             <div className={"ui container"}>
-            <h1>Результаты голосования</h1>
+            <h1>Результаты текущего голосования</h1>
+                <h2> На данный момент всего проголосовало  {" " + this.props.electorateVoted} избирателей </h2>
                 <div className={"graph"}>
 
                     <BarTextContent candidates={this.props.candidates} />

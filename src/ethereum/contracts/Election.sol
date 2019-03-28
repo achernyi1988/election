@@ -34,12 +34,18 @@ contract Election is IElection{
     constructor()public {
         admin = msg.sender;
 
-        addContender("Бойко", "Slyga Narody" );
-        addContender("Вилков", "Partia svoboda" );
-        addContender("Гриценко", "Democratia" );
-        addContender("Зеленський", "Vosrojdenie" );
-        addContender("Порошенко", "nacialistu" );
-        addContender("Тимошенко", "Vosrojdenie" );
+        addContender("Зеленский В.А.", "Democratia" );
+        addContender("Порошенко П.А. ", "Slyga Narody" );
+        addContender("Тимошенко Ю.В.", "Partia svoboda" );
+
+        addContender("Бойко Ю.А.", "Vosrojdenie" );
+        addContender("Гриценко А.С.", "Vosrojdenie" );
+        addContender("Ляшко О.В.", "nacialistu" );
+        addContender("Смешко И.П.", "Vosrojdenie" );
+        addContender("Вилкул А.Ю.", "Vosrojdenie" );
+
+        addContender("Тарута С.А.", "Vosrojdenie" );
+
         addContender("Против всех", "Vosrojdenie" );
     }
 

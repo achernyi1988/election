@@ -1,7 +1,5 @@
 import types from "../reducer/types"
 import {smartContractData} from "../../ethereum/contractInstance"
-import history from "../../history"
-import sleep from "../../utils/sleep"
 
 export const setIPFSHash = (hash) => (dispatch) => {
     console.log("setIPFSHash");
@@ -38,7 +36,12 @@ export const getIPFSHash = () => (dispatch) => {
 
 export const setCurrentElectorate = (person) => {
 
-    return {type: types.CURRENT_ELECTORATE, payload: person};
+    return {type: types.SET_CURRENT_ELECTORATE, payload: person};
+}
+
+export const getCurrentElectorate = () => {
+
+    return {type: types.GET_CURRENT_ELECTORATE};
 }
 
 export const getContractAddress = () => (dispatch) => {
@@ -88,9 +91,7 @@ export const vote = (candidate, electorate, onVote ) =>  (dispatch) => {
                 gas: "2000000"
             }).then((result) => {
                 console.log("vote:result ", result.events.OnVote.returnValues);
-                dispatch({type: types.CURRENT_CANDIDATE, payload: result.events.OnVote.returnValues.contender})
-
-                history.push("/thanks");
+                dispatch({type: types.SET_CURRENT_CANDIDATE, payload: result.events.OnVote.returnValues.contender})
             }).catch( (err)   => {
                 console.log("vote:err ", err.message);
             });
@@ -108,7 +109,18 @@ export const getCandidates = () => async (dispatch) => {
     for(let i = 0; i < length; ++i){
         arr.push(await instanceSM.methods.contender(i).call());
     }
-    console.log("getCandidates:result ", arr);
+    arr.sort(function(a, b){
+        if (a.fullName === 'Против всех') return 0;
+        if (b.fullName === 'Против всех') return 0;
+
+        if (a.fullName < b.fullName)
+            return -1;
+        if ( a.fullName > b.fullName)
+            return 1;
+        return 0;
+    });
+
+    console.log("getCandidates:result after sort by alphabet ", arr);
     dispatch({type: types.UPDATE_CANDIDATE_LIST, payload: arr})
 
 }

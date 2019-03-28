@@ -19,15 +19,20 @@ const ipfsHashReducer = (state = INITIAL_STATE, action) => {
 }
 
 const currentElectorateReducer = (state = {}, action) => {
-    if (types.CURRENT_ELECTORATE === action.type) {
+
+    if (types.SET_CURRENT_ELECTORATE === action.type) {
         return action.payload;
+    }
+
+    if(types.GET_CURRENT_ELECTORATE === action.type){
+        return state;
     }
     return state;
 }
 
 
 const currentCandidateReducer = (state = {}, action) => {
-    if (types.CURRENT_CANDIDATE === action.type) {
+    if (types.SET_CURRENT_CANDIDATE === action.type) {
         return {
 
             text: action.payload

@@ -2,7 +2,7 @@ import React from "react"
 import {connect} from "react-redux"
 import history from "../history"
 import {Container, Progress} from 'semantic-ui-react'
-
+import {getCurrentElectorate} from "../redux/action"
 
 class Thanks extends React.Component {
 
@@ -11,6 +11,8 @@ class Thanks extends React.Component {
     }
 
     componentDidMount() {
+        this.props.getCurrentElectorate();
+
         this.progressBarIncreasing();
     }
 
@@ -23,10 +25,10 @@ class Thanks extends React.Component {
                 this.setState({percent: this.state.percent + 1})
             } else {
                 clearInterval(this.interval);
-                history.push("/admin");
+                history.push("/result");
             }
 
-        }, 30)
+        }, 150) //15 seconds
     }
 
     componentWillUnmount(){
@@ -35,30 +37,27 @@ class Thanks extends React.Component {
 
 
     render() {
-
-        if (!this.props.current_voter.text || !this.props.current_candidate.text) {
-            return <div>No correct data available. Go to home page</div>
+        console.log("Thanks:render this.props.current_voter.text", this.props.current_voter.text);
+        if (!this.props.current_voter.text) {
+            return <div>Обрабатываються данные! Подождите, пожалуйста</div>
         }
 
         return (
             <Container>
-                Спасибо,{" " + this.props.current_voter.text} за Ваш голос за кандидата
-                {" " + this.props.current_candidate.text}
+                Спасибо,{" " + this.props.current_voter.text} за Ваш голос !
+                Подождите, пожалуйста загружаються результаты выборов на текущий момент времени
                 <div>
                     <Progress percent={this.state.percent} indicating progress/>
                 </div>
             </Container>
         )
-
     }
 }
-
 
 const mapStateToProps = (state) => {
     console.log("mapStateToProps", state);
     return {
-        current_voter: state.current_voter,
-        current_candidate: state.current_candidate
+        current_voter: state.current_voter
     }
 }
-export default connect(mapStateToProps)(Thanks);
+export default connect(mapStateToProps, {getCurrentElectorate})(Thanks);

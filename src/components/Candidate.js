@@ -2,14 +2,10 @@ import React from "react"
 import {getCandidates, vote} from "../redux/action"
 import {connect} from "react-redux"
 import {Field, reduxForm, SubmissionError} from "redux-form"
-import {Button, Container} from 'semantic-ui-react'
-import Circle from 'react-circle';
+import {Button} from 'semantic-ui-react'
+import history from "../history";
 
 class Candidate extends React.Component {
-
-    state = {
-        percent: 0
-    }
 
     componentDidMount() {
         this.props.getCandidates();
@@ -51,28 +47,37 @@ class Candidate extends React.Component {
             <h3>Список кандидатов:</h3>
             <table className="ui striped  table">
 
-            {this.props.candidates.map((candidate) => {
-                return (
-                    <tr>
-                    <td>
-                        <div key={candidate.fullName}>
-                            <label>
-                                <Field name="candidates" component={this.renderField} type="radio" label={candidate.fullName}/>
-                            </label>
-                        </div>
-                    </td>
-                    </tr>
-                )
-            })}
+                {this.props.candidates.map((candidate) => {
+                    return (
+                        <tr>
+                            <td>
+                                <div key={candidate.fullName}>
+                                    <label>
+                                        <Field name="candidates" component={this.renderField} type="radio"
+                                               label={candidate.fullName}/>
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+                    )
+                })}
             </table>
         </div>)
     }
     onSubmit = ({candidates}) => {
         console.log("onSubmit", candidates, this.props.current_voter);
-        if (!this.props.current_voter.text) {
-            console.log("!!!!!!!!!!!!!!!!!error  onSubmit");
+
+        if (!candidates) {
             throw new SubmissionError({
-                voter_unavailable: 'no voter available',
+                voter_unavailable: 'не выбран кандидат из списка!!',
+                _error: 'no candidate selected'
+            })
+        }
+
+        if (!this.props.current_voter.text) {
+            throw new SubmissionError({
+                voter_unavailable: 'не выбран избиратель, ' +
+                'выйдете в главное меню и выберите себя из списка',
                 _error: 'voter failed!'
             })
         }
@@ -84,18 +89,7 @@ class Candidate extends React.Component {
     onVote = () => {
         console.log("onVote in progress");
 
-        this.interval = setInterval(() => {
-            if (this.state.percent < 100) {
-                this.setState({percent: this.state.percent + 1})
-            } else {
-                clearInterval(this.interval);
-            }
-
-        }, 200)
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.interval);
+        history.push("/thanks");
     }
 
     renderVoter = () => {
@@ -103,7 +97,8 @@ class Candidate extends React.Component {
         return (
             <div className="welcome-message">
                 <p>Участие в выборах является свободным и добровольным.</p>
-                <p>Никто не вправе принуждать граждан голосовать за кого-либо из кандидатов, а также препятствовать свободному волеизъявлению избирателей.</p>
+                <p>Никто не вправе принуждать граждан голосовать за кого-либо из кандидатов, а также препятствовать
+                    свободному волеизъявлению избирателей.</p>
                 <p> Пожалуйста выберите кандидата из списка и проголосуйте. </p>
                 <p> ВНИМАНИЕ! Вы можете проголосовать только за одного кандидата или выбрать пункт "Против Всех" </p>
             </div>
@@ -123,7 +118,7 @@ class Candidate extends React.Component {
                         </div>
                         <div className="column">
                             <form className={"ui form error"} onSubmit={this.props.handleSubmit(this.onSubmit)}>
-                                        {this.renderRadioButtons()}
+                                {this.renderRadioButtons()}
                                 <div className="ui buttons" style={{marginTop: 50 + "px"}}>
                                     <Button primary disabled={submitting}>Проголосовать</Button>
                                     <div className="or"></div>
@@ -132,11 +127,6 @@ class Candidate extends React.Component {
                                 <label>
                                     <Field name="voter_unavailable" component={this.renderField}/>
                                 </label>
-                                <Container>
-                                    <label style={{display: `${this.state.percent ? "" : "none"}`}}>
-                                        <Circle progress={this.state.percent}/>
-                                    </label>
-                                </Container>
                             </form>
                         </div>
                     </div>
