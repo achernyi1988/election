@@ -105,9 +105,8 @@ class Electorate extends React.Component {
         const className = `field ${(formProps.meta.touched && formProps.meta.error) ? "error" : "" }`;
         return (
             <div className={className}>
-                <label> {formProps.label} </label>
                 <input
-                    {...formProps.input}
+                    {...formProps.input}  type={formProps.type}
                 />
                 {this.renderError(formProps.meta)}
             </div>
@@ -161,10 +160,11 @@ class Electorate extends React.Component {
 
         const {handleSubmit, pristine, reset, submitting} = this.props;
 
-        const inactive = (this.props.web3_address.admin === this.props.web3_address.user) ? "" : "none";
+        const {admin, user} = this.props.web3_address;
+
+        const inactive = (admin != null && user === admin) ? "" : "none";
 
         return (
-
             <div>
                 {this.quote(imageUrl)}
                 <div className="padding-100 vote-form">
@@ -180,7 +180,6 @@ class Electorate extends React.Component {
                                     <p>
                                         Глава государства будет избран путём прямого всеобщего тайного голосования на пятилетний срок.
                                     </p>
-                                    <Button onClick={this.createIPFSHash}>createIPFSHash</Button>
                                 </div>
                                 <div className="field field-15">
                                     <h3>Войдите в систему для голосования</h3>
@@ -199,7 +198,7 @@ class Electorate extends React.Component {
                                     </div>
                                     <div className="form-field">
                                         <label><i className="unlock icon"></i> Ваш Пароль</label>
-                                        <Field name="password" type="password" component={this.renderField}/>
+                                        <Field name="password" type="password" component={this.renderField} label={"Password"}/>
                                     </div>
                                     <div className="ui buttons">
                                         <Button primary disabled={submitting}>
@@ -215,6 +214,13 @@ class Electorate extends React.Component {
                             </div>
 
                         </form>
+
+                        <div style={{display: `${inactive}`}}>
+                            Администратор может обновить список избирателей
+                            <div>
+                                <Button primary onClick={this.createIPFSHash}>Обновить Список</Button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
