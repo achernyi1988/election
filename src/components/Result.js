@@ -18,12 +18,16 @@ class Result extends Component {
 
     render() {
         console.log("Result:render props", this.props);
-        if(!this.props.candidates || this.props.candidates.length === 0){
+
+        const {candidates, electorateVoted} = this.props;
+
+        if(!candidates || candidates.length === 0 ||
+           !electorateVoted || electorateVoted.length === 0){
             return <div>Загужаються результаты выборов. Пождите, пожалуйста.</div>;
         }
         return (
             <div className="padding-100">
-                <Graph candidates={this.props.candidates} electorateVoted = {this.props.electorateVoted.length}/>
+                <Graph candidates={candidates} electorateVoted = {electorateVoted.length}/>
                 <div className="home-btn container ui">
                     <button className="ui labeled icon button" onClick={this.onHome}><i className="arrow left icon"></i> Вернуться на Главную </button>
                 </div>
