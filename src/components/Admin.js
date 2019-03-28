@@ -21,10 +21,10 @@ class Admin extends Component {
             return <div>no candidates. Wait. Loading ...</div>;
         }
         return (
-            <div>
+            <div className="padding-100">
                 <Graph candidates={this.props.candidates}/>
-                <div style={{marginTop: 10 + "%"}}>
-                    <button onClick={this.onHome}> Back to home</button>
+                <div className="home-btn container ui">
+                    <button className="ui labeled icon button" onClick={this.onHome}><i className="arrow left icon"></i> Вернуться на Главную </button>
                 </div>
             </div>
         )

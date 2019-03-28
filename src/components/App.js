@@ -23,16 +23,18 @@ class App extends Component {
 
     render() {
         return (
-            <div>
-                <Header/>
-                <Router history={history}>
-                    <Switch>
-                        <Route path={"/"} exact component={(props) => <Electorate {...props} /> } />
-                        <Route path={"/candidate"} exact component={(props) => <Candidate{...props}/> } />
-                        <Route path={"/thanks"} exact component={Thanks}/>
-                        <Route path={"/admin"} exact component={Admin}/>
-                    </Switch>
-                </Router>
+            <div className="main">
+                <div className="content">
+                    <Header/>
+                    <Router history={history}>
+                        <Switch>
+                            <Route path={"/"} exact component={(props) => <Electorate {...props} /> } />
+                            <Route path={"/candidate"} exact component={(props) => <Candidate{...props}/> } />
+                            <Route path={"/thanks"} exact component={Thanks}/>
+                            <Route path={"/admin"} exact component={Admin}/>
+                        </Switch>
+                    </Router>
+                </div>
                 <Footer/>
             </div>
         );

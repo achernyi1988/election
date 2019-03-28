@@ -4,11 +4,31 @@
     box-sizing: border-box;
     font-family: "Ubuntu";
 }
+p{
+    font-size: 17px;
+}
+.padding-100{
+    padding:  100px 0;
+}
+html,
+#root{
+    height: 100%;
+}
+#root .main{
+    min-height: 100%;
+    display: grid;
+    grid-template-rows: 1fr auto;
+}
+.footer {
+    grid-row-start: 2;
+    grid-row-end: 3;
+}
 /*************HEADER**************/
 header{
     margin: 0 !important;
     background-color: #558bb3 !important;
     color: #fff;
+    border-radius: 0 !important;
 }
 header .container{
     align-items: center !important;
@@ -16,6 +36,7 @@ header .container{
 header img{
     width: 120px;
     height: 80px;
+    margin-left: 15px;
 }
 header h3{
     display: inline-block;
@@ -29,7 +50,7 @@ header h3{
     margin: 0;
     padding: 20px;
 }
-h3 span{
+header h3 span{
     font-weight: bold;
     font-size: 30px;
 }
@@ -53,10 +74,10 @@ h3 span{
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.6);
 }
 blockquote{
-    margin: 0;
+    margin: 0 25px;
     position: relative;
     z-index: 10;
     color: #fff;
@@ -140,32 +161,34 @@ blockquote p{
     width: 100%;
 }
 
+/*************************LIST CANDIDATES*********************/
+.list-candidates{
+    padding: 100px 0;
+}
+.welcome-message{
+    color: #5a5656;
+    margin: 40px 0;
+}
+.list-candidates h3{
+    font-weight: normal;
+    font-size: 24px;
+    text-shadow: none;
+    text-align: center;
+    color: #558bb3;
+}
+.list-candidates h3 span{
+    font-weight: bold;
+}
+.candidates-table h3{
+    color: #5a5656;
+    text-align: center;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/**********************GRAPH******************************/
+.home-btn {
+    padding-top: 30px;
+    border-top: 1px solid #ccc;
+}
 h2 {
     text-align: center;
     margin-left: 40px;
@@ -173,19 +196,19 @@ h2 {
 
 .graph {
     position: relative;
-    max-width: 800px;
-    height: 400px;
+    max-width: 1000px;
+    height: 300px;
     display: flex;
     flex-wrap: wrap;
-    margin: 40px auto;
+    margin: 40px auto 80px auto;
 }
 
 .line {
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 2px;
-    background: rgba(0, 0, 0, 0.1);
+    width: 1px;
+    background: #dad9d9;
     left: 10%;
     z-index: -1;
 }
@@ -196,31 +219,37 @@ h2 {
 }
 h1{
     text-align: center;
+    color: #558bb3;
+    text-transform: uppercase;
 }
 
 
 .text {
     display: flex;
     align-items: center;
-    justify-content: center;
-    color: red;
+    justify-content: flex-end;
+    color: rgba(58, 56, 56, 0.87);
+    margin-right: 19px;
+}
+.text h3{
+    font-size: 16px;
 }
 
 .bar-lines-container {
     height: 100%;
     width: 80%;
     position: relative;
-    background: #ddd;
+    background: #fbfbfb;
     z-index: -25;
+    border: 1px solid #ccc;
 }
 
 .bar {
     position: relative;
-    background: #e05b42;
+    background: #f7bc0f;
     z-index: 25;
-
-    border-bottom: 1px solid #222;
-    border-right: 1px solid #222;
+    border-bottom: 1px solid #a5673f;
+    border-right: 1px solid #a5673f;
 }
 
 .bar-percent-0 {
@@ -232,7 +261,9 @@ h1{
     align-items: center;
     justify-content: flex-end;
     height: 100%;
-    margin-right: auto;
+    color: #6d3511;
+    font-size: 20px;
+    margin-right: 10px;
 }
 
 .bar:last-child {
@@ -270,4 +301,64 @@ footer{
 }
 footer p{
     margin: 0;
+    font-size: 12px;
+}
+
+
+/*******************MEDIA QUARRIES*****************/
+@media screen and (max-width: 768px) {
+    .padding-100{
+        padding:  50px 0;
+    }
+    .text h3{
+        font-size: 13px;
+    }
+    .bar-percent{
+        font-size: 12px;
+    }
+}
+
+
+@media screen and (max-width: 640px) {
+    header h3{
+        font-size: 17px;
+    }
+    h3 span {
+        font-size: 30px;
+    }
+    blockquote h2{
+        font-size: 40px;
+    }
+    blockquote p{
+        font-size: 18px;
+    }
+    .list-candidates .column{
+        width: 100% !important;
+    }
+    .bar-text-content{
+        width: 25%;
+    }
+    .bar-lines-container{
+        width: 75%;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    header h3{
+        font-size: 15px;
+    }
+    h3 span {
+        font-size: 25px;
+    }
+    blockquote h2{
+        font-size: 30px;
+    }
+    blockquote p{
+        font-size: 16px;
+    }
+    header h3{
+        width: auto;
+        margin: 0 25px;
+        padding: 20px 0;
+    }
 }

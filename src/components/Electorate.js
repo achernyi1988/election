@@ -5,7 +5,7 @@ import {setIPFSHash, getIPFSHash, setCurrentElectorate, getElectorateVoted} from
 import {connect} from "react-redux"
 import {Button, Container} from 'semantic-ui-react'
 import _ from 'lodash'
-import imageUrl from './background.jpg'
+import imageUrl from './img/2.jpg'
 
 import {Field, reduxForm, SubmissionError} from "redux-form"
 
@@ -144,7 +144,7 @@ class Electorate extends React.Component {
                         Тот, кто будет управлять всеми, должен быть избран среди всех.
                     </h2>
                     <p>
-                        Плиний Младший, римский писатель
+                        - Плиний Младший, римский писатель
                     </p>
                 </blockquote>
                 <div className="vote">
@@ -167,7 +167,7 @@ class Electorate extends React.Component {
 
             <div>
                 {this.quote(imageUrl)}
-                <div className="vote-form">
+                <div className="padding-100 vote-form">
                     <div className="ui container">
                         <form className={"ui form error"} onSubmit={handleSubmit(this.onSubmit)}>
                             {/*<Select placeholder={"input your name"} onChange={this.handleChange} options={this.state.persons}/>*/}
@@ -206,7 +206,7 @@ class Electorate extends React.Component {
                                             Войти
                                         </Button>
                                         <div className="or"></div>
-                                        <Button grey disabled={pristine || submitting} onClick={reset}>
+                                        <Button disabled={pristine || submitting} onClick={reset}>
                                             Сбросить
                                         </Button>
                                     </div>
