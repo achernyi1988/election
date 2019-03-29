@@ -2,8 +2,8 @@ import web3 from "../ethereum/web3"
 const compiledFactory = require("../ethereum/build/Election");
 
 // PRIVATE_KEY = "109D58463D2A21022382C21C9A4FA0CDDAA6E20B4FDF9CFD2304E182DCC56CBE";
-const CONTRACT_ADDRESS = "0x0482337Ba9050A47E359C8F652686e8EE6c1CdcA";  //rinkby
-//const CONTRACT_ADDRESS = "0x8F32AFe85807a1F12deF995Ee4391aff50839746";    //ganache
+const CONTRACT_ADDRESS = "0x153B742B3407472b9d876F0df7B4113D148c74f7";  //rinkby
+//const CONTRACT_ADDRESS = "0x5fa4FbcE6b2896FaF6d2157853d5501441a969e5";    //ganache
 
 
 const createInstance = async() => {

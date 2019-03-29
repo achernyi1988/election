@@ -1,15 +1,15 @@
 import React from 'react';
 
 
-const PercentageBottom = () => {
-    const markerArr = Array(11).fill(null);
+const PercentageBottom = ({chartData}) => {
+    const markerArr = Array(chartData.lineCounter + 1).fill(null);
 
     return (
         <div className="botton-info">
             {
                 markerArr.map((el, i) => (
-                    <span key={i} className="botton-info" style={{ left: `${i * 10}%` }}>
-          { i * 10 }
+                    <span key={i} className="botton-info" style={{ left: `${chartData.linePercentageArr[i] * chartData.multiplyWidth}%` }}>
+          { chartData.linePercentageArr[i] }
          </span>
                 ))
             }

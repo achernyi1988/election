@@ -19,8 +19,8 @@ class Thanks extends React.Component {
     componentDidUpdate(prevProps){
         if(prevProps.is_vote_processed !== this.props.is_vote_processed){
             if(true === this.props.is_vote_processed){
-                console.log("vote was written to smart contract. switch to result",)
-               // history.push("/result");
+                console.log("vote was written to smart contract. switch to result")
+                history.push("/result");
             }
         }
 
