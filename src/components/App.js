@@ -8,17 +8,17 @@ import {Router, Route, Switch} from "react-router-dom"
 import {getContractAddress} from "../redux/action";
 import {connect} from "react-redux";
 
-
 import history from "../history"
 import Header from "./Header";
 import Footer from "./Footer";
+import ScrollToTop from 'react-router-scroll-top'
 
 
 class App extends Component {
 
 
-     componentWillMount() {
-         this.props.getContractAddress();
+    componentWillMount() {
+        this.props.getContractAddress();
     }
 
     render() {
@@ -26,13 +26,15 @@ class App extends Component {
             <div className="main">
                 <div className="content">
                     <Header/>
-                    <Router history={history}>
-                        <Switch>
-                            <Route path={"/"} exact component={(props) => <Electorate {...props} /> } />
-                            <Route path={"/candidate"} exact component={(props) => <Candidate{...props}/> } />
-                            <Route path={"/thanks"} exact component={Thanks}/>
-                            <Route path={"/result"} exact component={Result}/>
-                        </Switch>
+                    <Router onUpdate={() => window.scrollTo(0, 0)} history={history}>
+                        <ScrollToTop>
+                            <Switch>
+                                <Route path={"/"} exact component={(props) => <Electorate {...props} />}/>
+                                <Route path={"/candidate"} exact component={(props) => <Candidate{...props}/>}/>
+                                <Route path={"/thanks"} exact component={Thanks}/>
+                                <Route path={"/result"} exact component={Result}/>
+                            </Switch>
+                        </ScrollToTop>
                     </Router>
                 </div>
                 <Footer/>
@@ -41,4 +43,5 @@ class App extends Component {
     }
 }
 
-export default  connect(null, {getContractAddress })(App);
+
+export default connect(null, {getContractAddress})(App);

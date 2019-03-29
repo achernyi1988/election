@@ -130,7 +130,7 @@ class Electorate extends React.Component {
         const electorate = _.find(this.state.persons, ['value', value.electorate]);
         if (!electorate) {
             throw new SubmissionError({
-                password: 'choose your name from list',
+                password: 'выберите Вас из списка',
                 _error: 'Login failed!'
             })
         }
@@ -138,7 +138,7 @@ class Electorate extends React.Component {
         if (electorate.password !== value.password) {
 
             throw new SubmissionError({
-                password: 'Wrong password, try again',
+                password: 'не верный пароль',
                 _error: 'Login failed!'
             })
         }
@@ -247,11 +247,11 @@ const validate = (values) => {
     const errors = {}
 
     if (!values.password) {
-        errors.password = "you must enter a password";
+        errors.password = "пожалуйста, введите пароль";
     }
 
-    else if (values.password.length > 2) {
-        errors.password = "must be 2 characters or less"
+    else if (values.password.length > 4) {
+        errors.password = "должно быть 4 символа"
     }
 
     //
