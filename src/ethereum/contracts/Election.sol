@@ -89,7 +89,7 @@ contract Election is IElection{
 
     function vote(string  _contender, string _electorate ) external  NotContender(_contender) {
 
-        require(!electorateVoted[_electorate]);
+        require(!electorateVoted[_electorate], "this electorate has already voted");
 
         ContenderData storage voted = contender[getContenderIndex(_contender)];
 

@@ -1,7 +1,7 @@
 import React from "react"
 import {connect} from "react-redux"
 import history from "../history"
-import {Container, Progress} from 'semantic-ui-react'
+import { Progress} from 'semantic-ui-react'
 import {getCurrentElectorate} from "../redux/action"
 
 class Thanks extends React.Component {
@@ -16,6 +16,16 @@ class Thanks extends React.Component {
         this.progressBarIncreasing();
     }
 
+    componentDidUpdate(prevProps){
+        if(prevProps.is_vote_processed !== this.props.is_vote_processed){
+            if(true === this.props.is_vote_processed){
+                console.log("vote was written to smart contract. switch to result",)
+               // history.push("/result");
+            }
+        }
+
+    }
+
     progressBarIncreasing = () => {
  
         this.interval = setInterval(() => {
@@ -23,9 +33,6 @@ class Thanks extends React.Component {
 
             if (this.state.percent < 100) {
                 this.setState({percent: this.state.percent + 1})
-            } else {
-                clearInterval(this.interval);
-                history.push("/result");
             }
 
         }, 150) //15 seconds
@@ -61,7 +68,8 @@ class Thanks extends React.Component {
 const mapStateToProps = (state) => {
     console.log("mapStateToProps", state);
     return {
-        current_voter: state.current_voter
+        current_voter: state.current_voter,
+        is_vote_processed: state.is_vote_processed
     }
 }
 export default connect(mapStateToProps, {getCurrentElectorate})(Thanks);

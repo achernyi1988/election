@@ -463,7 +463,7 @@ footer p {
         transform: translateX(-20px);
     }
 
-    .tooltip {
+    /*.tooltip {
         position: relative;
         display: inline-block;
         width: 100%;
@@ -501,5 +501,5 @@ footer p {
     .tooltip:hover .tooltiptext {
         visibility: visible;
         opacity: 1;
-    }
+    }*/
 }

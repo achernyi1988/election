@@ -90,14 +90,18 @@ class Candidate extends React.Component {
             })
         }
         if (this.props.current_voter) {
-            this.props.vote(candidates, this.props.current_voter.value, this.onVote);
+            this.props.vote(candidates, this.props.current_voter.value, this.onStartVoting);
         }
     }
 
-    onVote = () => {
-        console.log("onVote in progress");
+    onStartVoting = () => {
+        console.log("onStartVoting in progress");
 
         history.push("/thanks");
+    }
+
+    onEndVoting = () => {
+
     }
 
     renderVoter = () => {

@@ -79,21 +79,20 @@ export const getElectorateVoted = () => async (dispatch) => {
 }
 
 
-export const vote = (candidate, electorate, onVote ) =>  (dispatch) => {
+export const vote = (candidate, electorate, onStartVoting, onEndVoting ) =>  (dispatch) => {
     console.log("vote");
-
+    dispatch({type: types.SET_VOTE_PROCESS, payload: false})
     smartContractData.then( async obj =>
         {
-            onVote();
-           // await sleep(15000)
+            onStartVoting();
             obj.instanceSM.methods.vote(candidate, electorate).send({
                 from: obj.accounts[0],
                 gas: "2000000"
             }).then((result) => {
                 console.log("vote:result ", result.events.OnVote.returnValues);
-                dispatch({type: types.SET_CURRENT_CANDIDATE, payload: result.events.OnVote.returnValues.contender})
+                dispatch({type: types.SET_VOTE_PROCESS, payload: true})
             }).catch( (err)   => {
-                console.log("vote:err ", err.message);
+                console.log("vote:err includes ", err.message);
             });
         }
     )

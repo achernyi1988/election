@@ -230,7 +230,7 @@ class Electorate extends React.Component {
                         <div style={{display: `${inactive}`}}>
                             Администратор может обновить список избирателей
                             <div>
-                                <Button primary onClick={this.createIPFSHash}>Обновить Список</Button>
+                                <Button primary onClick={this.createIPFSHash}>Загрузить Список Кандидатов</Button>
                             </div>
                         </div>
                     </div>

@@ -31,12 +31,9 @@ const currentElectorateReducer = (state = {}, action) => {
 }
 
 
-const currentCandidateReducer = (state = {}, action) => {
-    if (types.SET_CURRENT_CANDIDATE === action.type) {
-        return {
-
-            text: action.payload
-        }
+const setVoteProcessReducer = (state = false, action) => {
+    if (types.SET_VOTE_PROCESS === action.type) {
+        return  action.payload
     }
     return state;
 }
@@ -88,7 +85,7 @@ export default combineReducers({
     form: formReducer,
     ipfs_hash: ipfsHashReducer,
     current_voter: currentElectorateReducer,
-    current_candidate: currentCandidateReducer,
+    is_vote_processed: setVoteProcessReducer,
     web3_address: adminAddressReducer,
     electorate_voted: electorateVotedReducer,
     candidates: candidateListReducer,
