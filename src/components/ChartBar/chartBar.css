@@ -422,6 +422,19 @@ footer p {
     }
 }
 
+.center-text {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.center-text a {
+    background-color: #d19300 !important;
+}
+
+.center-text a:hover {
+    background-color: #a9883c !important;
+}
+
 @media screen and (max-width: 400px) {
     header h3 {
         font-size: 15px;
@@ -462,6 +475,7 @@ footer p {
     .botton-info > span {
         transform: translateX(-20px);
     }
+
 
     /*.tooltip {
         position: relative;

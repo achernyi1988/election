@@ -192,6 +192,9 @@ class Electorate extends React.Component {
                                     <p>
                                         Глава государства будет избран путём прямого всеобщего тайного голосования на пятилетний срок.
                                     </p>
+                                    <div className="center-text">
+                                        <a href={"/result"} className="ui orange button"> Посмотреть результаты выборов</a>
+                                    </div>
                                 </div>
                                 <div className="field field-15">
                                     <h3>Войдите в систему для голосования</h3>
