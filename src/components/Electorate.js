@@ -17,7 +17,7 @@ class Electorate extends React.Component {
 
 
     async componentDidMount() {
-        console.log("componentDidMount this.state", this.state);
+
         await this.props.getElectorateVoted();
         await this.props.getIPFSHash();
 
@@ -25,6 +25,15 @@ class Electorate extends React.Component {
             console.log("componentDidMount.fetchIPFSData this.props.ipfs_hash", this.props.ipfs_hash);
             this.fetchIPFSData(this.props.ipfs_hash);
         }
+        console.log("componentDidMount:fetch get_count");
+        fetch("/get_count")
+            .then(res => res.json())
+            .then(count => {
+                console.log("componentDidMount:count", count );
+            })
+            .catch( err => {
+                console.log("componentDidMount:err", err);
+            })
     }
 
     componentDidUpdate(prevProps) {
@@ -193,7 +202,7 @@ class Electorate extends React.Component {
                                         Глава государства будет избран путём прямого всеобщего тайного голосования на пятилетний срок.
                                     </p>
                                     <div className="center-text">
-                                        <a href={"/result"} className="ui orange button"> Посмотреть результаты выборов</a>
+                                        <button onClick={ () => this.props.history.push("/result")} className="ui orange button"> Посмотреть результаты выборов</button>
                                     </div>
                                 </div>
                                 <div className="field field-15">
