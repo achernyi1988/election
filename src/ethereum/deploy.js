@@ -26,7 +26,7 @@ const deploy = async () => {
 
         const result = await new web3.eth.Contract(JSON.parse(compiledFactory.interface))
             .deploy({data: '0x' + compiledFactory.bytecode})
-            .send({gas: "3000000", from: accounts[1]}); //create contract with second address as admin.
+            .send({gas: "3000000", from: accounts[0]}); //create contract with second address as admin.
 
 
         console.log("Contract deployed at", result.options.address);

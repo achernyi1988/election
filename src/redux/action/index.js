@@ -1,6 +1,9 @@
 import types from "../reducer/types"
 import {smartContractData} from "../../ethereum/contractInstance"
 import timer from "../../utils/timer"
+import axios from "axios/index";
+var promiseRetry = require('promise-retry');
+
 
 export const setIPFSHash = (hash) => (dispatch) => {
     console.log("setIPFSHash");
@@ -80,7 +83,15 @@ export const getElectorateVoted = () => async (dispatch) => {
 }
 
 
-function sendVote(candidate, electorate, dispatch, reject) {
+function send_vote_retry(candidate, electorate, dispatch, n) {
+    return sendVote(candidate, electorate, dispatch).catch(function(error) {
+        if (n === 0) throw error;
+        return sendVote(candidate, electorate, dispatch,  n - 1);
+    });
+}
+
+
+function sendVote(candidate, electorate, dispatch, onFinishedVoting) {
 
     smartContractData.then(obj => {
         obj.instanceSM.methods.vote(candidate, electorate).send({
@@ -89,43 +100,24 @@ function sendVote(candidate, electorate, dispatch, reject) {
         }).then((result) => {
             console.log("vote:result ", result.events.OnVote.returnValues);
             dispatch({type: types.SET_VOTE_PROCESS, payload: true})
+            onFinishedVoting(false); // no retry
         }).catch((err) => {
-            reject(err);
+            console.log("vote:err ", err);
+            onFinishedVoting(true); //retry
         });
     });
 
 }
 
 
-export const vote = (candidate, electorate, onStartVoting) => (dispatch) => {
-    console.log("vote");
-    let attempt = 0;
-    let retry_milliseconds = 25000;
-    dispatch({type: types.SET_VOTE_PROCESS, payload: false})
-    timer(0).then(() => {
-        onStartVoting();
-        return new Promise((resolve, reject) => {
-            sendVote(candidate, electorate, dispatch, reject);
-        }).catch(error => {
-            console.log(`vote:err run ${++attempt}th retry ${error.message} with ${retry_milliseconds} milliseconds`);
+export const vote = (candidate, electorate, onStartVoting, onFinishedVoting) => async (dispatch) => {
+    console.log("vote:");
 
-            timer(retry_milliseconds).then(() => {
-                return new Promise((resolve, reject) => {
-                    sendVote(candidate, electorate, dispatch, reject);
-                }).catch(error => {
-                    console.log(`vote:err run ${++attempt}th retry ${error.message} with ${retry_milliseconds} milliseconds`);
+    dispatch({type: types.SET_VOTE_PROCESS, payload: false});
 
-                    timer(retry_milliseconds).then(() => {
-                        return new Promise((resolve, reject) => {
-                            sendVote(candidate, electorate, dispatch, reject);
-                        }).catch(error => {
-                            console.log(`vote:err ${attempt}th retries are finished ${error.message} with ${retry_milliseconds} milliseconds`);
-                        })
-                    })
-                })
-            })
-        })
-    })
+    onStartVoting();
+
+    sendVote(candidate, electorate, dispatch, onFinishedVoting );
 
 }
 

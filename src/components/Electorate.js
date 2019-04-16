@@ -25,15 +25,9 @@ class Electorate extends React.Component {
             console.log("componentDidMount.fetchIPFSData this.props.ipfs_hash", this.props.ipfs_hash);
             this.fetchIPFSData(this.props.ipfs_hash);
         }
-        console.log("componentDidMount:fetch get_count");
-        fetch("/get_count")
-            .then(res => res.json())
-            .then(count => {
-                console.log("componentDidMount:count", count );
-            })
-            .catch( err => {
-                console.log("componentDidMount:err", err);
-            })
+
+
+
     }
 
     componentDidUpdate(prevProps) {

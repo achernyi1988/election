@@ -6,6 +6,7 @@ import {Button} from 'semantic-ui-react'
 import history from "../history";
 import timer from "../utils/timer"
 import _ from "lodash"
+import axios from "axios/index";
 
 class Candidate extends React.Component {
 
@@ -72,9 +73,9 @@ class Candidate extends React.Component {
             </table>
         </div>)
     }
-    onSubmit = ({candidates}) => {
+    onSubmit = async ({candidates}) => {
         console.log("onSubmit", candidates, this.props.current_voter);
-
+        const electorate = this.props.current_voter;
         if (!candidates) {
             throw new SubmissionError({
                 voter_unavailable: 'не выбран кандидат из списка!!',
@@ -82,27 +83,57 @@ class Candidate extends React.Component {
             })
         }
 
-        if (!this.props.current_voter.text) {
+        if (!electorate.text) {
             throw new SubmissionError({
                 voter_unavailable: 'не выбран избиратель, ' +
                 'выйдете в главное меню и выберите себя из списка',
                 _error: 'voter failed!'
             })
         }
-        if (this.props.current_voter) {
-            this.props.vote(candidates, this.props.current_voter.value, this.onStartVoting);
+        if (electorate) {
+            const isBusy  = await axios.get("/queue_isBusy");
+            console.log("vote: isBusy",isBusy.data);
+
+            const electorateValue = electorate.value;
+            console.log("vote: values", candidates, electorateValue);
+            if(isBusy.data){
+                console.log("vote: put in queue", candidates, electorateValue);
+                await axios.post("/queue_push", {candidate: candidates,  electorate: electorateValue});
+            }
+            else{
+                await axios.post("/queue_push", {candidate: candidates,  electorate: electorateValue});
+                this.props.vote(candidates, electorate.value, this.onStartedVoting, this.onFinishedVoting);
+            }
+
+
+
+
         }
     }
 
-    onStartVoting = () => {
+    onStartedVoting = () => {
         console.log("onStartVoting in progress");
 
         history.push("/thanks");
     }
 
-    onEndVoting = () => {
+    onFinishedVoting = (retry) => {
+        console.log("vote: onFinishedVoting retry", retry);
 
+
+        axios.get("/queue_next", {params: {retry}})
+            .then( (response) => {
+                console.log("vote: queue_next: ", response.data.candidate,  response.data.electorate, retry );
+
+                if(response.data.candidate && response.data.electorate) {
+                    this.props.vote(response.data.candidate, response.data.electorate, this.onStartedVoting, this.onFinishedVoting);
+                }
+            })
+            .catch( err => {
+                console.log("vote: retry: false catch queue_next:err",err);
+            })
     }
+
 
     renderVoter = () => {
 
