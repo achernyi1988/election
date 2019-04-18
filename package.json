@@ -36,7 +36,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "nodemon server.js"
+    "server": "nodemon server.js",
+    "dev": "concurrently \"npm run server\" \"npm run start\""
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -49,5 +50,6 @@
   ],
   "devDependencies": {
     "karma-typescript": "^4.0.0"
-  }
+  },
+  "proxy": "http://localhost:9000"
 }

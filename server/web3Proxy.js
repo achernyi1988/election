@@ -32,7 +32,7 @@ exports.getContractAddress = (callback) => {
     smartContractData.then(obj => {
             obj.instanceSM.methods.admin().call().then((result) => {
                     console.log("admin:result ", result);
-                    callback(result);
+                    callback({admin: result, user: obj.accounts[0]});
                 })
             }).catch((err) => {
                 console.log("admin:err ", err.message);
@@ -71,7 +71,7 @@ exports.vote = (candidate, electorate, callback) => {
             console.log("vote:result ", result.events.OnVote.returnValues);
             callback(true);
         }).catch((err) => {
-            reject(err);
+            console.log("vote:err ", err);
             callback(false);
         });
     });

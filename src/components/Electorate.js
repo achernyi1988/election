@@ -18,8 +18,9 @@ class Electorate extends React.Component {
 
     async componentDidMount() {
         console.log("componentDidMount this.state", this.state);
-        await this.props.getElectorateVoted();
         await this.props.getIPFSHash();
+        await this.props.getElectorateVoted();
+
 
         if (this.props.ipfs_hash) {
             console.log("componentDidMount.fetchIPFSData this.props.ipfs_hash", this.props.ipfs_hash);
