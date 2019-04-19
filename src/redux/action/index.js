@@ -18,7 +18,7 @@ export const getIPFSHash = () => (dispatch) => {
 
     axios.get("/getIPFSHash").then( response => {
         console.log("getIPFSHash:result ", response.data);
-        dispatch({type: types.IPFS_HASH, payload: response.data})
+        dispatch({type: types.IPFS_HASH, payload: response.data.length === 0 ? null : response.data})
     }).catch(err => {
         console.log("getIPFSHash:err ", err);
     })
@@ -67,7 +67,7 @@ export const vote = (candidate, electorate, onStartVoting) => (dispatch) => {
     console.log("vote");
 
     dispatch({type: types.SET_VOTE_PROCESS, payload: false})
-
+    onStartVoting();
     axios.post("/vote", {candidate, electorate }).then( response => {
         console.log("vote:result ", response.data);
         dispatch({type: types.SET_VOTE_PROCESS, payload: true})

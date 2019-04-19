@@ -1,13 +1,11 @@
 
-const smartContractData = require("./../src/ethereum/contractInstance");
-
-console.log("contractInstance", smartContractData);
+const smartContractData = require("./ethereum/contractInstance");
 
 exports.getIPFSHash = (callback) => {
     smartContractData.then(obj => {
             obj.instanceSM.methods.getIPFS().call().then((result) => {
                 console.log("getIPFSHash:result ", result);
-                callback(result);
+                callback(result.length === 0 ? null : result);
             }).catch((err) => {
                 console.log("getIPFSHash:err ", err.message);
             });
@@ -51,8 +49,13 @@ exports.getElectorateVoted = (callback) =>  {
                 requestPromises.push(obj.instanceSM.methods.votersArray(i).call());
             }
             Promise.all(requestPromises).then(votes => {
-                console.log("getElectorateVoted:votes ", votes);
-                callback(votes);
+
+                let arr = [];
+                for (let i = 0; i < length; ++i) {
+                    arr.push(votes[i].voter);
+                }
+                console.log("getElectorateVoted:votes ", arr);
+                callback(arr);
             })
         })
     }).catch((err) => {

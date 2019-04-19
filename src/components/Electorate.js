@@ -16,19 +16,19 @@ class Electorate extends React.Component {
     };
 
 
-    async componentDidMount() {
+    componentDidMount() {
         console.log("componentDidMount this.state", this.state);
-        await this.props.getIPFSHash();
-        await this.props.getElectorateVoted();
-
+        this.props.getElectorateVoted();
+        this.props.getIPFSHash();
 
         if (this.props.ipfs_hash) {
-            console.log("componentDidMount.fetchIPFSData this.props.ipfs_hash", this.props.ipfs_hash);
-            this.fetchIPFSData(this.props.ipfs_hash);
+            this.fetchIPFSData(this.props.ipfs_hash); //needs to load the list next time after voting
         }
     }
 
     componentDidUpdate(prevProps) {
+        console.log("componentDidUpdate.fetchIPFSData this.props.ipfs_hash", this.props.ipfs_hash);
+        console.log("componentDidUpdate.fetchIPFSData this.state.persons", this.state.persons);
         if (this.props.ipfs_hash !== prevProps.ipfs_hash) {
             this.fetchIPFSData(this.props.ipfs_hash);
         }
@@ -51,6 +51,7 @@ class Electorate extends React.Component {
     }
 
     fetchIPFSData = (ipfs_hash) => {
+        console.log("fetchIPFSData ipfs_hash",ipfs_hash );
         ipfs.files.cat(ipfs_hash)
             .then(persons => {
                 this.setPersons(persons);
@@ -67,24 +68,28 @@ class Electorate extends React.Component {
                 voted: false
             })
         );
+
+        console.log("setPersons" ,persons);
+
         this.sortPersonsByAlphabet(personsOptions);
         this.updateVoted(personsOptions, this.props.electorate_voted);
     };
 
     updateVoted = (persons, votedPersons) => {
+
+        this.setState({persons: persons});
+        
         if (!votedPersons) {
             return;
         }
 
         votedPersons.forEach((value) => {
             let electorate = _.find(persons, ['value', value]);
-
+            console.log("votedPersons forEach value",value, electorate);
             if (electorate) {
                 electorate.voted = true;
             }
         })
-        console.log("updateVoted");
-        this.setState({persons: persons});
     }
     createIPFSHash = () => {
         ipfs.files.add(Buffer.from(JSON.stringify(json_file)))
